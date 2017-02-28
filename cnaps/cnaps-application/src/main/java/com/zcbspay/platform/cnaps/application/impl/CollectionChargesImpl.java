@@ -17,6 +17,7 @@ import com.zcbspay.platform.cnaps.application.enums.CategoryPurposeEnum;
 import com.zcbspay.platform.cnaps.beps.message.BEPSMessageService;
 import com.zcbspay.platform.cnaps.beps.message.bean.CollectionChargesDetailBean;
 import com.zcbspay.platform.cnaps.beps.message.bean.CollectionChargesTotalBean;
+import com.zcbspay.platform.cnaps.beps.message.bean.SingleCollectionChargesDetailBean;
 import com.zcbspay.platform.cnaps.common.bean.ResultBean;
 import com.zcbspay.platform.cnaps.common.bean.TradeBean;
 
@@ -78,7 +79,12 @@ public class CollectionChargesImpl implements CollectionCharges {
 
 	@Override
 	public ResultBean realTimeCollectionCharges(TradeBean tradeBean) {
+		SingleCollectionChargesDetailBean singleBean = new SingleCollectionChargesDetailBean();
 		
+		
+		
+		
+		bepsMessageService.realTimeCollectionChargesRequest(singleBean);
 		return null;
 	}
 

@@ -15,10 +15,12 @@ import com.zcbspay.platform.cnaps.application.sequence.SerialNumberService;
 public class RedisSerialNumberServiceImpl implements SerialNumberService{
 	@Autowired
 	private RedisTemplate<String, String> redisTemplate;
+	
+	private static final String MSGID="SEQUENCE:CNAPS:MSGID";
 	private static final String BATCHCOLLECT="SEQUENCE:BEPS:BATCHCOLLECT";
 	private static final String BATCHCOLLECTDETA="SEQUENCE:BEPS:BATCHCOLLECTDETA";
 	private static final String REALTIMECOLLECT="SEQUENCE:BEPS:REALTIMECOLLECT";
-	
+	private static final String REALTIMECOLLECTBATCH="SEQUENCE:BEPS:REALTIMECOLLECT:BATCH";
 	public String formateSequence(String key){
 		ValueOperations<String, String> opsForValue = redisTemplate.opsForValue();
 		Long increment = opsForValue.increment(key, 1);
@@ -45,6 +47,18 @@ public class RedisSerialNumberServiceImpl implements SerialNumberService{
 	public String generateRealTimeCollectSerialNo() {
 		String seqNo = formateSequence(REALTIMECOLLECT);
 		return seqNo.substring(0, 6) + "BEPS384" + seqNo.substring(6);
+	}
+
+	@Override
+	public String generateRealTimeCollectBatchNo() {
+		String seqNo = formateSequence(REALTIMECOLLECTBATCH);
+		return seqNo.substring(0, 6) + "BEPS384B" + seqNo.substring(6);
+	}
+
+	@Override
+	public String generateMsgId() {
+		String seqNo = formateSequence(MSGID);
+		return seqNo.substring(0, 6) + "CNAPS" + seqNo.substring(6);
 	}
 	
 }

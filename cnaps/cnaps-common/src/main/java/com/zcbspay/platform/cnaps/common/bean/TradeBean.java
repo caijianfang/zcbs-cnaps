@@ -70,6 +70,12 @@ public class TradeBean implements Serializable {
 	 * 手机号
 	 */
 	private String phoneNo;
+	
+	/**
+	 * 协议号
+	 */
+	private String protocolNo;
+	
 	public String getBatchNo() {
 		return batchNo;
 	}
@@ -135,6 +141,12 @@ public class TradeBean implements Serializable {
 	}
 	public void setPhoneNo(String phoneNo) {
 		this.phoneNo = phoneNo;
+	}
+	public String getProtocolNo() {
+		return protocolNo;
+	}
+	public void setProtocolNo(String protocolNo) {
+		this.protocolNo = protocolNo;
 	}
 	
 	

@@ -2,8 +2,6 @@ package com.zcbspay.platform.cnaps.application.impl;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.dubbo.config.annotation.Reference;
@@ -11,15 +9,20 @@ import com.google.common.collect.Lists;
 import com.zcbspay.platform.cnaps.application.CollectionCharges;
 import com.zcbspay.platform.cnaps.application.dao.ChannelCollectDetaDAO;
 import com.zcbspay.platform.cnaps.application.dao.ChannelColletctBatchDAO;
+import com.zcbspay.platform.cnaps.application.dao.MerchBankAccountDAO;
 import com.zcbspay.platform.cnaps.application.dao.pojo.ChannelCollectBatchDO;
 import com.zcbspay.platform.cnaps.application.dao.pojo.ChannelCollectDetaDO;
+import com.zcbspay.platform.cnaps.application.dao.pojo.MerchBankAccountDO;
 import com.zcbspay.platform.cnaps.application.enums.CategoryPurposeEnum;
+import com.zcbspay.platform.cnaps.application.sequence.SerialNumberService;
+import com.zcbspay.platform.cnaps.application.utils.Constant;
 import com.zcbspay.platform.cnaps.beps.message.BEPSMessageService;
 import com.zcbspay.platform.cnaps.beps.message.bean.CollectionChargesDetailBean;
 import com.zcbspay.platform.cnaps.beps.message.bean.CollectionChargesTotalBean;
 import com.zcbspay.platform.cnaps.beps.message.bean.SingleCollectionChargesDetailBean;
 import com.zcbspay.platform.cnaps.common.bean.ResultBean;
 import com.zcbspay.platform.cnaps.common.bean.TradeBean;
+import com.zcbspay.platform.cnaps.common.enums.PurposeEnum;
 
 public class CollectionChargesImpl implements CollectionCharges {
 
@@ -29,15 +32,17 @@ public class CollectionChargesImpl implements CollectionCharges {
 	private ChannelColletctBatchDAO channelColletctBatchDAO;
 	@Autowired
 	private ChannelCollectDetaDAO channelCollectDetaDAO;
+	@Autowired
+	private MerchBankAccountDAO merchBankAccountDAO;
+	@Autowired
+	private SerialNumberService serialNumberService;
 	@Reference(version="1.0")
 	private BEPSMessageService bepsMessageService;
+	
 	@Override
 	public ResultBean batchCollectionCharges(String batchNo) {
 		//批次数据
 		ChannelCollectBatchDO collectBatch = channelColletctBatchDAO.getCollectBatchByBatchNo(batchNo);
-		//String merchNo = collectBatch.getMerchno();
-		//String channelCode = Constant.getInstance().getChannelCode();
-		//MerchBankAccountDO bankAccount = merchBankAccountDAO.getBankAccountByMerchNoAndChannlCode(merchNo, channelCode);
 		CollectionChargesTotalBean totalBean = new CollectionChargesTotalBean();
 		totalBean.setBatchNo(batchNo);
 		totalBean.setCategoryPurposeCode(CategoryPurposeEnum.CollectionCharges.getCode());
@@ -80,11 +85,33 @@ public class CollectionChargesImpl implements CollectionCharges {
 	@Override
 	public ResultBean realTimeCollectionCharges(TradeBean tradeBean) {
 		SingleCollectionChargesDetailBean singleBean = new SingleCollectionChargesDetailBean();
+		singleBean.setMsgId(serialNumberService.generateMsgId());
+		singleBean.setBatchNo(serialNumberService.generateRealTimeCollectBatchNo());
+		singleBean.setTxId(serialNumberService.generateRealTimeCollectSerialNo());
+		//付款人信息
+		singleBean.setDebtorName(tradeBean.getCardKeeper());
+		singleBean.setDebtorAccountNo(tradeBean.getCardNo());
+		singleBean.setDebtorAgentCode(tradeBean.getBankCode());
+		singleBean.setDebtorBranchCode(tradeBean.getBankNode());
+		//收款人信息
+		String merchNo = tradeBean.getMerchNo();
+		String channelCode = Constant.getInstance().getChannelCode();
+		MerchBankAccountDO bankAccount = merchBankAccountDAO.getBankAccountByMerchNoAndChannlCode(merchNo, channelCode);
+		singleBean.setCreditorAccountNo(bankAccount.getAccountno());
+		singleBean.setCreditorName(bankAccount.getAccountname());
+		singleBean.setCreditorAgentCode(bankAccount.getBankcode());
+		singleBean.setCreditorBranchCode(bankAccount.getBanknode());
+		//其他信息
+		singleBean.setAmount(tradeBean.getTxnsAmt());
+		singleBean.setCategoryPurposeCode(CategoryPurposeEnum.CollectionCharges.getCode());
+		singleBean.setPurposeCode(PurposeEnum.Other.getCode());
+		singleBean.setEndToEndIdentification(tradeBean.getProtocolNo());
+		singleBean.setCheckFlag("CE02");
+		
+		//实时代收业务报文接口
+		com.zcbspay.platform.cnaps.beps.message.bean.ResultBean resultBean = bepsMessageService.realTimeCollectionChargesRequest(singleBean);
 		
 		
-		
-		
-		bepsMessageService.realTimeCollectionChargesRequest(singleBean);
 		return null;
 	}
 

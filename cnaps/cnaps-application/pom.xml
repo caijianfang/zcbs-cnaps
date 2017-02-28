@@ -31,5 +31,10 @@
     	<artifactId>cnaps-application-api</artifactId>
     	<version>1.0.0-SNAPSHOT</version>
     </dependency>
+    <dependency>
+    	<groupId>com.zcbspay.platform</groupId>
+    	<artifactId>cnaps-business-message-api</artifactId>
+    	<version>1.0.0-SNAPSHOT</version>
+    </dependency>
   </dependencies>
 </project>

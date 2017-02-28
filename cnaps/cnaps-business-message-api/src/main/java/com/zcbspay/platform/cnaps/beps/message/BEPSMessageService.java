@@ -23,21 +23,20 @@ import com.zcbspay.platform.cnaps.beps.message.bean.SinglePaymentBean;
 public interface BEPSMessageService {
 
 	/**
-	 *  批量代收请求方法
-	 *	根据汇总bean和明细bean的数据,组装报文bean，保存CNAPS代收批次流水和明细流水，
-	 *	发送至队列
-	 *	1.根据totalBean赋值批量代收报文bean的收付款信息相关的域，汇总信息域
-	 *	2.根据detailBean赋值批量代收报文bean的收款信息详细域
-	 *	3.保存T_TXNS_CNAPS_LOG数据，保存T_TXNS_CNAPS_COLLECT_BATCH_LOG和T_TXNS_CNAPS_COLLECT_DETA_LOG
-	 *	4.调用assemble方法包装报文返回报文字符串
-	 *	5.调用报文发送方法
-	 *	6.40s轮询批次表获取批次状态
-	 *	注意：现在设计中均不涉及账务，账务相关的需要确认交易模式后才能确定
+	 *  批量代收请求方法<br>
+	 *	根据汇总bean和明细bean的数据,组装报文bean，保存CNAPS代收批次流水和明细流水，<br>
+	 *	发送至队列<br>
+	 *	1.根据totalBean赋值批量代收报文bean的收付款信息相关的域，汇总信息域<br>
+	 *	2.根据detailBean赋值批量代收报文bean的收款信息详细域<br>
+	 *	3.保存T_TXNS_CNAPS_LOG数据，保存T_TXNS_CNAPS_COLLECT_BATCH_LOG和T_TXNS_CNAPS_COLLECT_DETA_LOG<br>
+	 *	4.调用assemble方法包装报文返回报文字符串<br>
+	 *	5.调用报文发送方法<br>
+	 *	6.40s轮询批次表获取批次状态<br>
+	 *	注意：现在设计中均不涉及账务，账务相关的需要确认交易模式后才能确定<br>
 	 * @param totalBean
-	 * @param detailBean
 	 * @return
 	 */
-	public ResultBean batchCollectionChargesRequest( CollectionChargesTotalBean totalBean, CollectionChargesDetailBean detailBean);
+	public ResultBean batchCollectionChargesRequest(CollectionChargesTotalBean totalBean);
 	
 	/**
 	 * 报文接收模块接收到消息后，分析报文类型后，调用此方法解析批量代收回执报文

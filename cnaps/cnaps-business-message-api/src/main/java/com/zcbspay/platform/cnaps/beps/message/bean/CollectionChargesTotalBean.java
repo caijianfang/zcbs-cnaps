@@ -1,6 +1,8 @@
 package com.zcbspay.platform.cnaps.beps.message.bean;
 
+
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 代收交易数据bean
@@ -52,6 +54,14 @@ public class CollectionChargesTotalBean implements Serializable{
 	 * 原始批次号
 	 */
 	private String batchNo;
+	
+	/**
+	 * 报文标识号
+	 */
+	private String msgId;
+	
+	private List<CollectionChargesDetailBean> detailList;
+	
 	public String getDebtorAgentCode() {
 		return debtorAgentCode;
 	}
@@ -105,6 +115,18 @@ public class CollectionChargesTotalBean implements Serializable{
 	}
 	public void setBatchNo(String batchNo) {
 		this.batchNo = batchNo;
+	}
+	public List<CollectionChargesDetailBean> getDetailList() {
+		return detailList;
+	}
+	public void setDetailList(List<CollectionChargesDetailBean> detailList) {
+		this.detailList = detailList;
+	}
+	public String getMsgId() {
+		return msgId;
+	}
+	public void setMsgId(String msgId) {
+		this.msgId = msgId;
 	}
 	
 }

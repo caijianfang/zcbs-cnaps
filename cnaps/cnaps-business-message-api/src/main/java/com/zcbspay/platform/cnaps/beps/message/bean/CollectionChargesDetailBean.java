@@ -52,6 +52,10 @@ public class CollectionChargesDetailBean implements Serializable{
 	 * 代收明细主键
 	 */
 	private String id;
+	/**
+	 * 明细标识号
+	 */
+	private String txId;
 	public String getMsgId() {
 		return msgId;
 	}
@@ -105,6 +109,12 @@ public class CollectionChargesDetailBean implements Serializable{
 	}
 	public void setId(String id) {
 		this.id = id;
+	}
+	public String getTxId() {
+		return txId;
+	}
+	public void setTxId(String txId) {
+		this.txId = txId;
 	}
 	
 	

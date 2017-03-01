@@ -1,5 +1,8 @@
 package com.zcbspay.platform.cnaps.ccms.message;
 
+import com.zcbspay.platform.cnaps.beps.message.bean.BusiQueryBean;
+import com.zcbspay.platform.cnaps.beps.message.bean.ResultBean;
+
 /**
  * 公共控制系统报文组装和接口
  *
@@ -49,11 +52,11 @@ public interface CCMSMessageService {
 	/**
 	 * 业务状态查询申请报文
 	 */
-	public void queryTransactionRequest();
+	public ResultBean queryTransactionRequest(BusiQueryBean bean);
 	/**
 	 * 业务状态查询应答报文
 	 */
-	public void queryTransactionResponse();
+	public void queryTransactionResponse(String message);
 	/**
 	 * 业务退回申请报文
 	 */

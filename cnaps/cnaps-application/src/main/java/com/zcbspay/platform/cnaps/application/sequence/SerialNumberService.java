@@ -29,4 +29,30 @@ public interface SerialNumberService {
 	 * @return
 	 */
 	public String generateRealTimeCollectBatchNo();
+	
+	
+	
+	
+	/**
+	 * 生成批量代收批次序号
+	 * @return
+	 */
+	public String generateBatchPaymentSerialNo();
+	
+	/**
+	 * 生成批量代收批次明细序号
+	 * @return
+	 */
+	public String generatePaymentDetaSerialNo();
+	
+	/**
+	 * 生成实时代收明细序号
+	 * @return
+	 */
+	public String generateRealTimePaymentSerialNo();
+	/**
+	 * 生成实时代收批次号
+	 * @return
+	 */
+	public String generateRealTimePaymentBatchNo();
 }

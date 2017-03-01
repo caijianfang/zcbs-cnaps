@@ -17,10 +17,6 @@ public class CollectionChargesDetailBean implements Serializable{
 	 */
 	private static final long serialVersionUID = 6191294353737673407L;
 	/**
-	 * 明细标识号
-	 */
-	private String msgId;
-	/**
 	 * 付款人名称
 	 */
 	private String debtorName;
@@ -51,17 +47,12 @@ public class CollectionChargesDetailBean implements Serializable{
 	/**
 	 * 代收明细主键
 	 */
-	private String id;
+	private String txnseqno;
 	/**
 	 * 明细标识号
 	 */
 	private String txId;
-	public String getMsgId() {
-		return msgId;
-	}
-	public void setMsgId(String msgId) {
-		this.msgId = msgId;
-	}
+	
 	public String getDebtorName() {
 		return debtorName;
 	}
@@ -104,18 +95,17 @@ public class CollectionChargesDetailBean implements Serializable{
 	public void setAdditionalInformation(String additionalInformation) {
 		this.additionalInformation = additionalInformation;
 	}
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
 	public String getTxId() {
 		return txId;
 	}
 	public void setTxId(String txId) {
 		this.txId = txId;
 	}
-	
+	public String getTxnseqno() {
+		return txnseqno;
+	}
+	public void setTxnseqno(String txnseqno) {
+		this.txnseqno = txnseqno;
+	}
 	
 }

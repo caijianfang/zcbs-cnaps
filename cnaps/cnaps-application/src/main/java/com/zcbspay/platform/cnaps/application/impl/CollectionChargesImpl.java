@@ -3,27 +3,35 @@ package com.zcbspay.platform.cnaps.application.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.google.common.collect.Lists;
 import com.zcbspay.platform.cnaps.application.CollectionCharges;
 import com.zcbspay.platform.cnaps.application.dao.ChannelCollectDetaDAO;
 import com.zcbspay.platform.cnaps.application.dao.ChannelColletctBatchDAO;
+import com.zcbspay.platform.cnaps.application.dao.CnapsLogDAO;
 import com.zcbspay.platform.cnaps.application.dao.MerchBankAccountDAO;
 import com.zcbspay.platform.cnaps.application.dao.pojo.ChannelCollectBatchDO;
 import com.zcbspay.platform.cnaps.application.dao.pojo.ChannelCollectDetaDO;
+import com.zcbspay.platform.cnaps.application.dao.pojo.CnapsLogDO;
 import com.zcbspay.platform.cnaps.application.dao.pojo.MerchBankAccountDO;
 import com.zcbspay.platform.cnaps.application.enums.CategoryPurposeEnum;
 import com.zcbspay.platform.cnaps.application.sequence.SerialNumberService;
 import com.zcbspay.platform.cnaps.application.utils.Constant;
 import com.zcbspay.platform.cnaps.beps.message.BEPSMessageService;
+import com.zcbspay.platform.cnaps.beps.message.bean.BusiQueryBean;
 import com.zcbspay.platform.cnaps.beps.message.bean.CollectionChargesDetailBean;
 import com.zcbspay.platform.cnaps.beps.message.bean.CollectionChargesTotalBean;
 import com.zcbspay.platform.cnaps.beps.message.bean.SingleCollectionChargesDetailBean;
+import com.zcbspay.platform.cnaps.ccms.message.CCMSMessageService;
 import com.zcbspay.platform.cnaps.common.bean.ResultBean;
 import com.zcbspay.platform.cnaps.common.bean.TradeBean;
 import com.zcbspay.platform.cnaps.common.enums.PurposeEnum;
-
+import com.zcbspay.platform.cnaps.common.enums.TradeStatFlagEnum;
+import com.zcbspay.platform.cnaps.dao.TxnsLogDAO;
+import com.zcbspay.platform.cnaps.pojo.PojoTxnsLog;
+@Service
 public class CollectionChargesImpl implements CollectionCharges {
 
 	//private static final Logger logger = LoggerFactory.getLogger(CollectionChargesImpl.class);
@@ -35,10 +43,15 @@ public class CollectionChargesImpl implements CollectionCharges {
 	@Autowired
 	private MerchBankAccountDAO merchBankAccountDAO;
 	@Autowired
+	private TxnsLogDAO txnsLogDAO;
+	@Autowired
+	private CnapsLogDAO cnapsLogDAO;
+	@Autowired
 	private SerialNumberService serialNumberService;
 	@Reference(version="1.0")
 	private BEPSMessageService bepsMessageService;
-	
+	@Reference(version="1.0")
+	private CCMSMessageService ccmsMessageService;
 	@Override
 	public ResultBean batchCollectionCharges(String batchNo) {
 		//批次数据
@@ -59,7 +72,6 @@ public class CollectionChargesImpl implements CollectionCharges {
 		List<CollectionChargesDetailBean> detaList = Lists.newArrayList();
 		for(ChannelCollectDetaDO collectDeta : collectList){
 			CollectionChargesDetailBean detailBean = new CollectionChargesDetailBean();
-			detailBean.setMsgId("");
 			detailBean.setDebtorName(collectDeta.getAccountname());
 			detailBean.setDebtorAccountNo(collectDeta.getAccountno());
 			detailBean.setDebtorBranchCode(collectDeta.getBanknode());
@@ -68,7 +80,8 @@ public class CollectionChargesImpl implements CollectionCharges {
 			detailBean.setCheckFlag("CE02");
 			detailBean.setAdditionalInformation(collectDeta.getAddinfo());
 			detailBean.setTxId(collectDeta.getTxid());
-			//判断当前交易是否完成，完成的交易不可重复提交
+			//代收付协议检查
+			
 			detaList.add(detailBean);
 		}
 		totalBean.setDetailList(detaList);
@@ -78,13 +91,35 @@ public class CollectionChargesImpl implements CollectionCharges {
 	}
 
 	@Override
-	public ResultBean batchCollectionChargesQuery(String txnseqno) {
-		
+	public ResultBean batchCollectionChargesQuery(String msgid) {
+		CnapsLogDO cnapsLog = cnapsLogDAO.getCNAPSLogByMsgid(msgid);
+		BusiQueryBean busiQueryBean = new BusiQueryBean();
+		busiQueryBean.setPaymentInstructionReference(cnapsLog.getMsgid());
+		busiQueryBean.setProprietaryReferenceInstruction(cnapsLog.getInstructingparty());
+		com.zcbspay.platform.cnaps.beps.message.bean.ResultBean resultBean = ccmsMessageService.queryTransactionRequest(busiQueryBean);
 		return null;
 	}
 
 	@Override
 	public ResultBean realTimeCollectionCharges(TradeBean tradeBean) {
+		PojoTxnsLog txnsLog = txnsLogDAO.getTxnsLogByTxnseqno(tradeBean.getTxnseqno());
+		TradeStatFlagEnum statFlagEnum = TradeStatFlagEnum.fromValue(txnsLog.getTradestatflag());
+		if(statFlagEnum==TradeStatFlagEnum.PAYING){
+			ResultBean resultBean = new ResultBean();
+			resultBean.setResultBool(false);
+			resultBean.setErrCode("");
+			resultBean.setErrMsg("交易正在处理中，请不要重复支付");
+			return resultBean;
+		}
+		if(statFlagEnum==TradeStatFlagEnum.FINISH_SUCCESS||statFlagEnum==TradeStatFlagEnum.FINISH_ACCOUNTING||
+				statFlagEnum==TradeStatFlagEnum.FINSH){
+			ResultBean resultBean = new ResultBean();
+			resultBean.setResultBool(false);
+			resultBean.setErrCode("");
+			resultBean.setErrMsg("交易成功，请不要重复支付");
+			return resultBean;
+		}
+		
 		SingleCollectionChargesDetailBean singleBean = new SingleCollectionChargesDetailBean();
 		singleBean.setMsgId(serialNumberService.generateMsgId());
 		singleBean.setBatchNo(serialNumberService.generateRealTimeCollectBatchNo());
@@ -118,7 +153,12 @@ public class CollectionChargesImpl implements CollectionCharges {
 
 	@Override
 	public ResultBean realTimeCollectionChargesQuery(String txnseqno) {
-		
+		PojoTxnsLog txnsLog = txnsLogDAO.getTxnsLogByTxnseqno(txnseqno);
+		CnapsLogDO cnapsLog = cnapsLogDAO.getCNAPSLogByMsgid(txnsLog.getPayordno());
+		BusiQueryBean busiQueryBean = new BusiQueryBean();
+		busiQueryBean.setPaymentInstructionReference(cnapsLog.getMsgid());
+		busiQueryBean.setProprietaryReferenceInstruction(cnapsLog.getInstructingparty());
+		com.zcbspay.platform.cnaps.beps.message.bean.ResultBean resultBean = ccmsMessageService.queryTransactionRequest(busiQueryBean);
 		return null;
 	}
 

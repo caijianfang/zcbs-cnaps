@@ -16,10 +16,7 @@ public class PaymentDetailBean implements Serializable{
 	 * serialVersionUID
 	 */
 	private static final long serialVersionUID = 1034923939448370909L;
-	/**
-	 * 明细标识号
-	 */
-	private String msgId;
+	
 	/**
 	 * 收款人名称
 	 */
@@ -41,15 +38,14 @@ public class PaymentDetailBean implements Serializable{
 	 */
 	private String additionalInformation;
 	/**
-	 * 代付明细主键
+	 * 代付明细标示
 	 */
-	private String id;
-	public String getMsgId() {
-		return msgId;
-	}
-	public void setMsgId(String msgId) {
-		this.msgId = msgId;
-	}
+	private String txId;
+	/**
+	 * 交易序列号
+	 */
+	private String txnseqno;
+	
 	public String getCreditorName() {
 		return creditorName;
 	}
@@ -80,12 +76,19 @@ public class PaymentDetailBean implements Serializable{
 	public void setAdditionalInformation(String additionalInformation) {
 		this.additionalInformation = additionalInformation;
 	}
-	public String getId() {
-		return id;
+	public String getTxId() {
+		return txId;
 	}
-	public void setId(String id) {
-		this.id = id;
+	public void setTxId(String txId) {
+		this.txId = txId;
 	}
+	public String getTxnseqno() {
+		return txnseqno;
+	}
+	public void setTxnseqno(String txnseqno) {
+		this.txnseqno = txnseqno;
+	}
+	
 	
 	
 }

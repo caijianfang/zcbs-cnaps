@@ -63,7 +63,7 @@ public interface BEPSMessageService {
 	 * @param detailBean
 	 * @return
 	 */
-	public ResultBean batchPaymentByAgencyRequest(PaymentTotalBean totalBean, PaymentDetailBean detailBean);
+	public ResultBean batchPaymentByAgencyRequest(PaymentTotalBean totalBean);
 	
 	/**
 	 * 报文接收模块接收到消息后，分析报文类型后，调用此方法解析批量代收回执报文

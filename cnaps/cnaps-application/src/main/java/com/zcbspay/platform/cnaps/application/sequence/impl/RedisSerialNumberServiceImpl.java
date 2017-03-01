@@ -21,6 +21,13 @@ public class RedisSerialNumberServiceImpl implements SerialNumberService{
 	private static final String BATCHCOLLECTDETA="SEQUENCE:BEPS:BATCHCOLLECTDETA";
 	private static final String REALTIMECOLLECT="SEQUENCE:BEPS:REALTIMECOLLECT";
 	private static final String REALTIMECOLLECTBATCH="SEQUENCE:BEPS:REALTIMECOLLECT:BATCH";
+	
+	
+	private static final String BATCHPAYMENT="SEQUENCE:BEPS:BATCHPAYMENT";
+	private static final String BATCHPAYMENTDETA="SEQUENCE:BEPS:BATCHPAYMENTDETA";
+	private static final String REALTIMEPAYMENT="SEQUENCE:BEPS:REALTIMEPAYMENT";
+	private static final String REALTIMEPAYMENTBATCH="SEQUENCE:BEPS:REALTIMEPAYMENT:BATCH";
+	
 	public String formateSequence(String key){
 		ValueOperations<String, String> opsForValue = redisTemplate.opsForValue();
 		Long increment = opsForValue.increment(key, 1);
@@ -59,6 +66,30 @@ public class RedisSerialNumberServiceImpl implements SerialNumberService{
 	public String generateMsgId() {
 		String seqNo = formateSequence(MSGID);
 		return seqNo.substring(0, 6) + "CNAPS" + seqNo.substring(6);
+	}
+
+	@Override
+	public String generateBatchPaymentSerialNo() {
+		String seqNo = formateSequence(BATCHPAYMENT);
+		return seqNo.substring(0, 6) + "BEPS382" + seqNo.substring(6);
+	}
+
+	@Override
+	public String generatePaymentDetaSerialNo() {
+		String seqNo = formateSequence(BATCHPAYMENTDETA);
+		return seqNo.substring(0, 6) + "BEPS382D" + seqNo.substring(6);
+	}
+
+	@Override
+	public String generateRealTimePaymentSerialNo() {
+		String seqNo = formateSequence(REALTIMEPAYMENT);
+		return seqNo.substring(0, 6) + "BEPS386" + seqNo.substring(6);
+	}
+
+	@Override
+	public String generateRealTimePaymentBatchNo() {
+		String seqNo = formateSequence(REALTIMEPAYMENTBATCH);
+		return seqNo.substring(0, 6) + "BEPS386B" + seqNo.substring(6);
 	}
 	
 }

@@ -14,6 +14,10 @@ import javax.persistence.Table;
 @Table(name = "T_CHANNEL_COLLECT_DETA")
 public class ChannelCollectDetaDO implements java.io.Serializable {
 
+	/**
+	 * serialVersionUID
+	 */
+	private static final long serialVersionUID = 3860014037391913820L;
 	private long tid;
 	private String batchno;
 	private String banknode;

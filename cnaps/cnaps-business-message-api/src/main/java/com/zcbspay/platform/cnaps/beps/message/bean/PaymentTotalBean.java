@@ -1,6 +1,7 @@
 package com.zcbspay.platform.cnaps.beps.message.bean;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 代收明细主键 Class Description
@@ -16,6 +17,11 @@ public class PaymentTotalBean implements Serializable{
 	 * serialVersionUID
 	 */
 	private static final long serialVersionUID = 723772656404937124L;
+	
+	/**
+	 * 报文标示号
+	 */
+	private String msgid;
 	/**
 	 * 付款人名称
 	 */
@@ -49,9 +55,18 @@ public class PaymentTotalBean implements Serializable{
 	 */
 	private String creditorNumber;
 	/**
+	 * 合同协议号
+	 */
+	private String endToEndIdentification;
+	/**
 	 * 原代付批次号
 	 */
 	private String batchNo;
+	/**
+	 * 代付明细数据
+	 */
+	private List<PaymentDetailBean> detailList;
+	
 	public String getDebtorName() {
 		return debtorName;
 	}
@@ -105,6 +120,24 @@ public class PaymentTotalBean implements Serializable{
 	}
 	public void setBatchNo(String batchNo) {
 		this.batchNo = batchNo;
+	}
+	public List<PaymentDetailBean> getDetailList() {
+		return detailList;
+	}
+	public void setDetailList(List<PaymentDetailBean> detailList) {
+		this.detailList = detailList;
+	}
+	public String getMsgid() {
+		return msgid;
+	}
+	public void setMsgid(String msgid) {
+		this.msgid = msgid;
+	}
+	public String getEndToEndIdentification() {
+		return endToEndIdentification;
+	}
+	public void setEndToEndIdentification(String endToEndIdentification) {
+		this.endToEndIdentification = endToEndIdentification;
 	}
 	
 	

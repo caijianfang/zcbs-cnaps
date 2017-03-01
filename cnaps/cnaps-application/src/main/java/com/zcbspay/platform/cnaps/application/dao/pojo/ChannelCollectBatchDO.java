@@ -14,6 +14,10 @@ import javax.persistence.Table;
 @Table(name = "T_CHANNEL_COLLECT_BATCH")
 public class ChannelCollectBatchDO implements java.io.Serializable {
 
+	/**
+	 * serialVersionUID
+	 */
+	private static final long serialVersionUID = -6310895053318968133L;
 	private long tid;
 	private String batchno;
 	private String merchno;

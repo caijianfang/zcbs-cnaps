@@ -37,10 +37,10 @@ public interface PaymentByAgency {
 		4.赋值BusiQueryBean
 		5.调用queryTransactionRequest方法
 		6.根据返回结果赋值ResultBean
-	 * @param txnId
+	 * @param msgId
 	 * @return
 	 */
-	public ResultBean batchPaymentByAgencyQuery(String txnId);
+	public ResultBean batchPaymentByAgencyQuery(String msgId);
 	
 	/**
 	 * 实时代付

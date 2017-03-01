@@ -25,7 +25,7 @@ public class ChannelCollectDetaDO implements java.io.Serializable {
 	private String busicode;
 	private String rspcode;
 	private String rspmsg;
-	private String orinorderno;
+	private String txnseqno;
 	private String txid;
 	private String status;
 	private String addinfo;
@@ -42,7 +42,7 @@ public class ChannelCollectDetaDO implements java.io.Serializable {
 	public ChannelCollectDetaDO(long tid, String batchno, String banknode,
 			String bankcode, String accountno, String accountname, Long amount,
 			String endtoendidentification, String busicode, String rspcode,
-			String rspmsg, String orinorderno, String txid, String status,
+			String rspmsg, String txnseqno, String txid, String status,
 			String addinfo, String notes, String remarks) {
 		this.tid = tid;
 		this.batchno = batchno;
@@ -55,7 +55,7 @@ public class ChannelCollectDetaDO implements java.io.Serializable {
 		this.busicode = busicode;
 		this.rspcode = rspcode;
 		this.rspmsg = rspmsg;
-		this.orinorderno = orinorderno;
+		this.txnseqno = txnseqno;
 		this.txid = txid;
 		this.status = status;
 		this.addinfo = addinfo;
@@ -163,13 +163,13 @@ public class ChannelCollectDetaDO implements java.io.Serializable {
 		this.rspmsg = rspmsg;
 	}
 
-	@Column(name = "ORINORDERNO", length = 32)
-	public String getOrinorderno() {
-		return this.orinorderno;
+	@Column(name = "TXNSEQNO", length = 16)
+	public String getTxnseqno() {
+		return this.txnseqno;
 	}
 
-	public void setOrinorderno(String orinorderno) {
-		this.orinorderno = orinorderno;
+	public void setTxnseqno(String txnseqno) {
+		this.txnseqno = txnseqno;
 	}
 
 	@Column(name = "TXID", length = 35)

@@ -68,6 +68,7 @@ public class CollectionChargesImpl implements CollectionCharges {
 			detailBean.setCheckFlag("CE02");
 			detailBean.setAdditionalInformation(collectDeta.getAddinfo());
 			detailBean.setTxId(collectDeta.getTxid());
+			//判断当前交易是否完成，完成的交易不可重复提交
 			detaList.add(detailBean);
 		}
 		totalBean.setDetailList(detaList);

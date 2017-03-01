@@ -21,6 +21,7 @@ public class CnapsContractDO implements java.io.Serializable {
 	private long tid;
 	private String directparty;
 	private String agreementnumber;
+	private String contractagreementtype;
 	private String debtorname;
 	private String debtoraccountno;
 	private String debtorissuercode;
@@ -178,4 +179,12 @@ public class CnapsContractDO implements java.io.Serializable {
 		this.remarks = remarks;
 	}
 
+	@Column(name = "CONTRACTAGREEMENTTYPE", length = 4)
+	public String getContractagreementtype() {
+		return this.contractagreementtype;
+	}
+
+	public void setContractagreementtype(String contractagreementtype) {
+		this.contractagreementtype = contractagreementtype;
+	}
 }

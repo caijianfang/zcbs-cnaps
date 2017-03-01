@@ -4,5 +4,6 @@ public enum ContractOperationEnum {
 
 	ADD,
 	MODIF,
-	CANCEL;
+	CANCEL,
+	QUERY;
 }

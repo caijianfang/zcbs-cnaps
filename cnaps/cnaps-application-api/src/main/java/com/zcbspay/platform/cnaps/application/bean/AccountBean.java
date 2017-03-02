@@ -29,6 +29,11 @@ public class AccountBean implements Serializable{
 	 */
 	private String accountBankCode;
 	
+	/**
+	 * 账户状态
+	 */
+	private String accountStatus;
+	
 	public String getAccountNo() {
 		return accountNo;
 	}
@@ -46,6 +51,12 @@ public class AccountBean implements Serializable{
 	}
 	public void setAccountBankCode(String accountBankCode) {
 		this.accountBankCode = accountBankCode;
+	}
+	public String getAccountStatus() {
+		return accountStatus;
+	}
+	public void setAccountStatus(String accountStatus) {
+		this.accountStatus = accountStatus;
 	}
 	
 }

@@ -27,4 +27,11 @@ public interface CnapsContractDAO extends BaseDAO<CnapsContractDO>{
 	 * @return
 	 */
 	public List<CnapsContractDO> queryCnapsContract(ContractBean contractBean);
+	
+	/**
+	 * 更新合同协议状态
+	 * @param contractNo
+	 * @param status
+	 */
+	public void updateContractStatus(String contractNo,String status);
 }

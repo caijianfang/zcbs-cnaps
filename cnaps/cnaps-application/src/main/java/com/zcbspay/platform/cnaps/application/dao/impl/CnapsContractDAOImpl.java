@@ -3,7 +3,10 @@ package com.zcbspay.platform.cnaps.application.dao.impl;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.criterion.Restrictions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +20,7 @@ import com.zcbspay.platform.cnaps.common.dao.impl.HibernateBaseDAOImpl;
 @Repository
 public class CnapsContractDAOImpl extends HibernateBaseDAOImpl<CnapsContractDO> implements CnapsContractDAO{
 
+	private static final Logger logger = LoggerFactory.getLogger(CnapsContractDAOImpl.class);
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Throwable.class)
 	public void saveContract(CnapsContractDO cnapsContract) {
@@ -61,6 +65,18 @@ public class CnapsContractDAOImpl extends HibernateBaseDAOImpl<CnapsContractDO> 
 			criteria.add(Restrictions.eq("creditorName", contractBean.getCreditorName()));
 		}
 		return criteria.list();
+	}
+
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Throwable.class)
+	public void updateContractStatus(String contractNo, String status) {
+		// TODO Auto-generated method stub
+		String hql = "update CnapsContractDO set accountstatus = ? where agreementnumber = ?";
+		Query query = getSession().createQuery(hql);
+		query.setParameter(0, contractNo);
+		query.setParameter(1, status);
+		int rows = query.executeUpdate();
+		logger.info("method updateContractStatus effect rows:"+rows);
 	}
 
 	

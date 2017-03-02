@@ -11,7 +11,8 @@ import com.zcbspay.platform.cnaps.application.bean.AccountBean;
 import com.zcbspay.platform.cnaps.application.bean.ContractBean;
 import com.zcbspay.platform.cnaps.application.dao.CnapsContractDAO;
 import com.zcbspay.platform.cnaps.application.dao.pojo.CnapsContractDO;
-import com.zcbspay.platform.cnaps.beps.bean.BatchCustomersAccountQueryResponse.Document;
+import com.zcbspay.platform.cnaps.beps.bean.BatchCustomersContractManageResponse.AccountDetails1;
+import com.zcbspay.platform.cnaps.beps.bean.BatchCustomersContractManageResponse.Document;
 import com.zcbspay.platform.cnaps.beps.message.BEPSMessageService;
 import com.zcbspay.platform.cnaps.beps.message.bean.ContractOperationEnum;
 import com.zcbspay.platform.cnaps.common.bean.ResultBean;
@@ -37,7 +38,14 @@ public class AssistBusinesServiceImpl implements AssistBusinesService {
 		com.zcbspay.platform.cnaps.beps.message.bean.ResultBean resultBean = bepsMessageService.batchCustomersContractManage(BeanCopyUtil.copyBean(com.zcbspay.platform.cnaps.beps.message.bean.ContractBean.class, contractBean), ContractOperationEnum.QUERY);
 		if(resultBean.isResultBool()){
 			//需根据返回报文进行赋值处理
-			
+			Document doc = (Document) resultBean.getResultObj();
+			List<AccountDetails1> acctDtls = doc.getBtchCstmrsCtrctMgRspn().getBtchCstmrsCtrctMgRspnInf().getAcctDtls();
+			if(acctDtls.size()>0){
+				String status = acctDtls.get(0).getAcctSts().value();
+				CnapsContractDO cnapsContract = BeanCopyUtil.copyBean(CnapsContractDO.class, contractBean);
+				cnapsContract.setAccountstatus(status);
+				cnapsContractDAO.saveContract(cnapsContract);
+			}
 		}else{
 			
 		}
@@ -48,12 +56,16 @@ public class AssistBusinesServiceImpl implements AssistBusinesService {
 	public ResultBean addContract(ContractBean contractBean) {
 		com.zcbspay.platform.cnaps.beps.message.bean.ResultBean resultBean = bepsMessageService.batchCustomersContractManage(BeanCopyUtil.copyBean(com.zcbspay.platform.cnaps.beps.message.bean.ContractBean.class, contractBean), ContractOperationEnum.ADD);
 		if(resultBean.isResultBool()){
-			CnapsContractDO cnapsContract = BeanCopyUtil.copyBean(CnapsContractDO.class, contractBean);
 			//需根据返回报文进行赋值处理
-			//Document doc = (Document) resultBean.getResultObj();
-			//cnapsContract.setAccountstatus(doc.getBtchCstmrsAcctQryRspn().getBtchCstmrsAcctQryRspnInf().getAcctDtls().get(0).getAcctSts().value());
-			cnapsContractDAO.saveContract(cnapsContract);
-		}else{
+			Document doc = (Document) resultBean.getResultObj();
+			List<AccountDetails1> acctDtls = doc.getBtchCstmrsCtrctMgRspn().getBtchCstmrsCtrctMgRspnInf().getAcctDtls();
+			if(acctDtls.size()>0){
+				String status = acctDtls.get(0).getAcctSts().value();
+				CnapsContractDO cnapsContract = BeanCopyUtil.copyBean(CnapsContractDO.class, contractBean);
+				cnapsContract.setAccountstatus(status);
+				cnapsContractDAO.saveContract(cnapsContract);
+			}
+ 		}else{
 			
 		}
 		
@@ -62,13 +74,35 @@ public class AssistBusinesServiceImpl implements AssistBusinesService {
 
 	@Override
 	public ResultBean repealContract(ContractBean contractBean) {
-		// TODO Auto-generated method stub
+		com.zcbspay.platform.cnaps.beps.message.bean.ResultBean resultBean = bepsMessageService.batchCustomersContractManage(BeanCopyUtil.copyBean(com.zcbspay.platform.cnaps.beps.message.bean.ContractBean.class, contractBean), ContractOperationEnum.CANCEL);
+		if(resultBean.isResultBool()){
+			//CnapsContractDO cnapsContract = BeanCopyUtil.copyBean(CnapsContractDO.class, contractBean);
+			//需根据返回报文进行赋值处理
+			Document doc = (Document) resultBean.getResultObj();
+			List<AccountDetails1> acctDtls = doc.getBtchCstmrsCtrctMgRspn().getBtchCstmrsCtrctMgRspnInf().getAcctDtls();
+			if(acctDtls.size()>0){
+				String status = acctDtls.get(0).getAcctSts().value();
+				cnapsContractDAO.updateContractStatus(contractBean.getAgreementNumber(), status);
+			}
+			
+		}else{
+			
+		}
 		return null;
 	}
 
 	@Override
 	public ResultBean queryAccount(AccountBean accountBean) {
-		// TODO Auto-generated method stub
+		com.zcbspay.platform.cnaps.beps.message.bean.ResultBean resultBean = bepsMessageService.batchCustomersAccountQuery(BeanCopyUtil.copyBean(com.zcbspay.platform.cnaps.beps.message.bean.AccountBean.class, accountBean));
+		if(resultBean.isResultBool()){
+			com.zcbspay.platform.cnaps.beps.bean.BatchCustomersAccountQueryResponse.Document document = (com.zcbspay.platform.cnaps.beps.bean.BatchCustomersAccountQueryResponse.Document) resultBean.getResultObj();
+			List<com.zcbspay.platform.cnaps.beps.bean.BatchCustomersAccountQueryResponse.AccountDetails1> acctDtls = document.getBtchCstmrsAcctQryRspn().getBtchCstmrsAcctQryRspnInf().getAcctDtls();
+			if(acctDtls.size()>0){
+				String status = acctDtls.get(0).getAcctSts().value();
+				accountBean.setAccountStatus(status);
+				return new ResultBean(accountBean);
+			}
+		}
 		return null;
 	}
 

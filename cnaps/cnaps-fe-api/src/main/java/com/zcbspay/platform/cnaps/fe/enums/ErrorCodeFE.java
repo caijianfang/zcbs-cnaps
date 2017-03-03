@@ -2,7 +2,8 @@ package com.zcbspay.platform.cnaps.fe.enums;
 
 public enum ErrorCodeFE {
 
-    SEND_MSG_FAIL("TFE001", "发送报文失败"), ;
+    SEND_MSG_FAIL("TFE001", "发送报文失败"),
+    ;
 
     private String value;
     private final String displayName;

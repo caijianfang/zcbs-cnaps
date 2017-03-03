@@ -17,10 +17,19 @@
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>3.8.1</version>
-			<scope>test</scope>
+			<groupId>com.zcbspay.platform</groupId>
+			<artifactId>cnaps-transfer-message-api</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.zcbspay.platform</groupId>
+			<artifactId>cnaps-message-bean</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.zcbspay.platform</groupId>
+			<artifactId>cnaps-common</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 </project>

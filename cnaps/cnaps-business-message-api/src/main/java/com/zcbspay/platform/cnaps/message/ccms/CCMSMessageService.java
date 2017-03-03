@@ -1,7 +1,7 @@
-package com.zcbspay.platform.cnaps.ccms.message;
+package com.zcbspay.platform.cnaps.message.ccms;
 
-import com.zcbspay.platform.cnaps.beps.message.bean.BusiQueryBean;
-import com.zcbspay.platform.cnaps.beps.message.bean.ResultBean;
+import com.zcbspay.platform.cnaps.message.bean.BusiQueryBean;
+import com.zcbspay.platform.cnaps.message.bean.ResultBean;
 
 /**
  * 公共控制系统报文组装和接口

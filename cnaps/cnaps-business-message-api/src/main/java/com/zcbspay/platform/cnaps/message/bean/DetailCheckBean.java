@@ -1,4 +1,4 @@
-package com.zcbspay.platform.cnaps.beps.message.bean;
+package com.zcbspay.platform.cnaps.message.bean;
 
 import java.io.Serializable;
 

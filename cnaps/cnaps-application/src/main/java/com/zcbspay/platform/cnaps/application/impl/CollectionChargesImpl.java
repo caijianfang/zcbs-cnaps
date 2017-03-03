@@ -19,17 +19,17 @@ import com.zcbspay.platform.cnaps.application.dao.pojo.MerchBankAccountDO;
 import com.zcbspay.platform.cnaps.application.enums.CategoryPurposeEnum;
 import com.zcbspay.platform.cnaps.application.sequence.SerialNumberService;
 import com.zcbspay.platform.cnaps.application.utils.Constant;
-import com.zcbspay.platform.cnaps.beps.message.BEPSMessageService;
-import com.zcbspay.platform.cnaps.beps.message.bean.BusiQueryBean;
-import com.zcbspay.platform.cnaps.beps.message.bean.CollectionChargesDetailBean;
-import com.zcbspay.platform.cnaps.beps.message.bean.CollectionChargesTotalBean;
-import com.zcbspay.platform.cnaps.beps.message.bean.SingleCollectionChargesDetailBean;
-import com.zcbspay.platform.cnaps.ccms.message.CCMSMessageService;
 import com.zcbspay.platform.cnaps.common.bean.ResultBean;
 import com.zcbspay.platform.cnaps.common.bean.TradeBean;
 import com.zcbspay.platform.cnaps.common.enums.PurposeEnum;
 import com.zcbspay.platform.cnaps.common.enums.TradeStatFlagEnum;
 import com.zcbspay.platform.cnaps.dao.TxnsLogDAO;
+import com.zcbspay.platform.cnaps.message.bean.BusiQueryBean;
+import com.zcbspay.platform.cnaps.message.bean.CollectionChargesDetailBean;
+import com.zcbspay.platform.cnaps.message.bean.CollectionChargesTotalBean;
+import com.zcbspay.platform.cnaps.message.bean.SingleCollectionChargesDetailBean;
+import com.zcbspay.platform.cnaps.message.beps.BEPSMessageService;
+import com.zcbspay.platform.cnaps.message.ccms.CCMSMessageService;
 import com.zcbspay.platform.cnaps.pojo.PojoTxnsLog;
 @Service
 public class CollectionChargesImpl implements CollectionCharges {
@@ -85,7 +85,7 @@ public class CollectionChargesImpl implements CollectionCharges {
 			detaList.add(detailBean);
 		}
 		totalBean.setDetailList(detaList);
-		com.zcbspay.platform.cnaps.beps.message.bean.ResultBean resultBean = bepsMessageService.batchCollectionChargesRequest(totalBean);
+		com.zcbspay.platform.cnaps.message.bean.ResultBean resultBean = bepsMessageService.batchCollectionChargesRequest(totalBean);
 		
 		return null;
 	}
@@ -96,7 +96,7 @@ public class CollectionChargesImpl implements CollectionCharges {
 		BusiQueryBean busiQueryBean = new BusiQueryBean();
 		busiQueryBean.setPaymentInstructionReference(cnapsLog.getMsgid());
 		busiQueryBean.setProprietaryReferenceInstruction(cnapsLog.getInstructingparty());
-		com.zcbspay.platform.cnaps.beps.message.bean.ResultBean resultBean = ccmsMessageService.queryTransactionRequest(busiQueryBean);
+		com.zcbspay.platform.cnaps.message.bean.ResultBean resultBean = ccmsMessageService.queryTransactionRequest(busiQueryBean);
 		return null;
 	}
 
@@ -145,7 +145,7 @@ public class CollectionChargesImpl implements CollectionCharges {
 		singleBean.setCheckFlag("CE02");
 		
 		//实时代收业务报文接口
-		com.zcbspay.platform.cnaps.beps.message.bean.ResultBean resultBean = bepsMessageService.realTimeCollectionChargesRequest(singleBean);
+		com.zcbspay.platform.cnaps.message.bean.ResultBean resultBean = bepsMessageService.realTimeCollectionChargesRequest(singleBean);
 		
 		
 		return null;
@@ -158,7 +158,7 @@ public class CollectionChargesImpl implements CollectionCharges {
 		BusiQueryBean busiQueryBean = new BusiQueryBean();
 		busiQueryBean.setPaymentInstructionReference(cnapsLog.getMsgid());
 		busiQueryBean.setProprietaryReferenceInstruction(cnapsLog.getInstructingparty());
-		com.zcbspay.platform.cnaps.beps.message.bean.ResultBean resultBean = ccmsMessageService.queryTransactionRequest(busiQueryBean);
+		com.zcbspay.platform.cnaps.message.bean.ResultBean resultBean = ccmsMessageService.queryTransactionRequest(busiQueryBean);
 		return null;
 	}
 

@@ -1,16 +1,16 @@
-package com.zcbspay.platform.cnaps.beps.message;
+package com.zcbspay.platform.cnaps.message.beps;
 
-import com.zcbspay.platform.cnaps.beps.message.bean.AccountBean;
-import com.zcbspay.platform.cnaps.beps.message.bean.CollectionChargesDetailBean;
-import com.zcbspay.platform.cnaps.beps.message.bean.CollectionChargesTotalBean;
-import com.zcbspay.platform.cnaps.beps.message.bean.ContractBean;
-import com.zcbspay.platform.cnaps.beps.message.bean.ContractOperationEnum;
-import com.zcbspay.platform.cnaps.beps.message.bean.DetailCheckBean;
-import com.zcbspay.platform.cnaps.beps.message.bean.PaymentDetailBean;
-import com.zcbspay.platform.cnaps.beps.message.bean.PaymentTotalBean;
-import com.zcbspay.platform.cnaps.beps.message.bean.ResultBean;
-import com.zcbspay.platform.cnaps.beps.message.bean.SingleCollectionChargesDetailBean;
-import com.zcbspay.platform.cnaps.beps.message.bean.SinglePaymentBean;
+import com.zcbspay.platform.cnaps.message.bean.AccountBean;
+import com.zcbspay.platform.cnaps.message.bean.CollectionChargesDetailBean;
+import com.zcbspay.platform.cnaps.message.bean.CollectionChargesTotalBean;
+import com.zcbspay.platform.cnaps.message.bean.ContractBean;
+import com.zcbspay.platform.cnaps.message.bean.ContractOperationEnum;
+import com.zcbspay.platform.cnaps.message.bean.DetailCheckBean;
+import com.zcbspay.platform.cnaps.message.bean.PaymentDetailBean;
+import com.zcbspay.platform.cnaps.message.bean.PaymentTotalBean;
+import com.zcbspay.platform.cnaps.message.bean.ResultBean;
+import com.zcbspay.platform.cnaps.message.bean.SingleCollectionChargesDetailBean;
+import com.zcbspay.platform.cnaps.message.bean.SinglePaymentBean;
 
 /**
  * 小额支付系统报文组装和解析接口

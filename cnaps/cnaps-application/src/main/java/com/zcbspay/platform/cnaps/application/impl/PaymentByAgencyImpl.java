@@ -19,17 +19,17 @@ import com.zcbspay.platform.cnaps.application.dao.pojo.MerchBankAccountDO;
 import com.zcbspay.platform.cnaps.application.enums.CategoryPurposeEnum;
 import com.zcbspay.platform.cnaps.application.sequence.SerialNumberService;
 import com.zcbspay.platform.cnaps.application.utils.Constant;
-import com.zcbspay.platform.cnaps.beps.message.BEPSMessageService;
-import com.zcbspay.platform.cnaps.beps.message.bean.BusiQueryBean;
-import com.zcbspay.platform.cnaps.beps.message.bean.PaymentDetailBean;
-import com.zcbspay.platform.cnaps.beps.message.bean.PaymentTotalBean;
-import com.zcbspay.platform.cnaps.beps.message.bean.SinglePaymentBean;
-import com.zcbspay.platform.cnaps.ccms.message.CCMSMessageService;
 import com.zcbspay.platform.cnaps.common.bean.ResultBean;
 import com.zcbspay.platform.cnaps.common.bean.TradeBean;
 import com.zcbspay.platform.cnaps.common.enums.PurposeEnum;
 import com.zcbspay.platform.cnaps.common.enums.TradeStatFlagEnum;
 import com.zcbspay.platform.cnaps.dao.TxnsLogDAO;
+import com.zcbspay.platform.cnaps.message.bean.BusiQueryBean;
+import com.zcbspay.platform.cnaps.message.bean.PaymentDetailBean;
+import com.zcbspay.platform.cnaps.message.bean.PaymentTotalBean;
+import com.zcbspay.platform.cnaps.message.bean.SinglePaymentBean;
+import com.zcbspay.platform.cnaps.message.beps.BEPSMessageService;
+import com.zcbspay.platform.cnaps.message.ccms.CCMSMessageService;
 import com.zcbspay.platform.cnaps.pojo.PojoTxnsLog;
 
 @Service
@@ -91,7 +91,7 @@ public class PaymentByAgencyImpl implements PaymentByAgency {
 		BusiQueryBean busiQueryBean = new BusiQueryBean();
 		busiQueryBean.setPaymentInstructionReference(cnapsLog.getMsgid());
 		busiQueryBean.setProprietaryReferenceInstruction(cnapsLog.getInstructingparty());
-		com.zcbspay.platform.cnaps.beps.message.bean.ResultBean resultBean = ccmsMessageService.queryTransactionRequest(busiQueryBean);
+		com.zcbspay.platform.cnaps.message.bean.ResultBean resultBean = ccmsMessageService.queryTransactionRequest(busiQueryBean);
 		return null;
 	}
 
@@ -153,7 +153,7 @@ public class PaymentByAgencyImpl implements PaymentByAgency {
 		BusiQueryBean busiQueryBean = new BusiQueryBean();
 		busiQueryBean.setPaymentInstructionReference(cnapsLog.getMsgid());
 		busiQueryBean.setProprietaryReferenceInstruction(cnapsLog.getInstructingparty());
-		com.zcbspay.platform.cnaps.beps.message.bean.ResultBean resultBean = ccmsMessageService.queryTransactionRequest(busiQueryBean);
+		com.zcbspay.platform.cnaps.message.bean.ResultBean resultBean = ccmsMessageService.queryTransactionRequest(busiQueryBean);
 		return null;
 	}
 

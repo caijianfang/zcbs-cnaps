@@ -1,24 +1,23 @@
-package com.zcbspay.platform.cnaps.beps.message.bean;
+package com.zcbspay.platform.cnaps.message.bean;
 
 import java.io.Serializable;
 
 /**
- * 单笔代付bean
+ * 单笔代收交易bean
  *
  * @author guojia
  * @version
- * @date 2017年2月23日 下午4:27:31
+ * @date 2017年2月23日 下午4:48:10
  * @since
  */
-public class SinglePaymentBean implements Serializable{
+public class SingleCollectionChargesDetailBean implements Serializable{
 
 	/**
 	 * serialVersionUID
 	 */
-	private static final long serialVersionUID = 4676821653551544847L;
-	
+	private static final long serialVersionUID = 7277779028427509984L;
 	/**
-	 * 报文标示号
+	 * 明细标识号
 	 */
 	private String msgId;
 	/**
@@ -26,7 +25,7 @@ public class SinglePaymentBean implements Serializable{
 	 */
 	private String batchNo;
 	/**
-	 * 明细流水号
+	 * 交易明细号
 	 */
 	private String txId;
 	/**
@@ -38,15 +37,15 @@ public class SinglePaymentBean implements Serializable{
 	 */
 	private String debtorAccountNo;
 	/**
-	 * 付款清算行行号
+	 * 付款清算行号
 	 */
 	private String debtorAgentCode;
 	/**
-	 *  付款行行号
+	 * 付款行行号
 	 */
 	private String debtorBranchCode;
 	/**
-	 * 收款清算行行号
+	 * 收款清算行号
 	 */
 	private String creditorAgentCode;
 	/**
@@ -70,15 +69,15 @@ public class SinglePaymentBean implements Serializable{
 	 */
 	private String categoryPurposeCode;
 	/**
-	 * 业务类型编码
+	 * 业务类型种类编码
 	 */
 	private String purposeCode;
 	/**
-	 * 合同（协议）号
+	 * 合同协议号
 	 */
 	private String endToEndIdentification;
 	/**
-	 *  核验标识
+	 * 检查标示
 	 */
 	private String checkFlag;
 	public String getMsgId() {
@@ -177,6 +176,5 @@ public class SinglePaymentBean implements Serializable{
 	public void setCheckFlag(String checkFlag) {
 		this.checkFlag = checkFlag;
 	}
-	
 	
 }

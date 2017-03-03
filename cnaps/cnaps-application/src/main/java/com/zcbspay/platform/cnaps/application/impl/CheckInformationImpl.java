@@ -11,12 +11,14 @@ import com.zcbspay.platform.cnaps.application.bean.DetailCheckBean;
 import com.zcbspay.platform.cnaps.application.bean.TotalCheckBean;
 import com.zcbspay.platform.cnaps.application.bean.TotalCheckMessageBean;
 import com.zcbspay.platform.cnaps.application.bean.TotalCheckPaymentBean;
+import com.zcbspay.platform.cnaps.bean.utils.XMLDateUtils;
 import com.zcbspay.platform.cnaps.beps.bean.TotalCheckInformationResponse.CheckMessageDetails1;
 import com.zcbspay.platform.cnaps.beps.bean.TotalCheckInformationResponse.CheckPaymentInformationDetails1;
 import com.zcbspay.platform.cnaps.beps.bean.TotalCheckInformationResponse.Document;
-import com.zcbspay.platform.cnaps.beps.message.BEPSMessageService;
 import com.zcbspay.platform.cnaps.common.bean.ResultBean;
+import com.zcbspay.platform.cnaps.message.beps.BEPSMessageService;
 import com.zcbspay.platform.cnaps.utils.BeanCopyUtil;
+import com.zcbspay.platform.cnaps.utils.DateUtil;
 
 @Service
 public class CheckInformationImpl implements CheckInformation {
@@ -26,11 +28,15 @@ public class CheckInformationImpl implements CheckInformation {
 	
 	@Override
 	public ResultBean totalCheckInformation(String checkDate) {
-		com.zcbspay.platform.cnaps.beps.message.bean.ResultBean resultBean = bepsMessageService.totalCheckInformationRequest(checkDate);
+		com.zcbspay.platform.cnaps.message.bean.ResultBean resultBean = bepsMessageService.totalCheckInformationRequest(checkDate);
 		if(resultBean.isResultBool()){
 			Document document = (Document) resultBean.getResultObj();
 			TotalCheckBean totalCheckBean = new TotalCheckBean();
-			//totalCheckBean.setCheckDate(document.getTtlChck().getTtlChckInf().getChckDt());
+			try {
+				totalCheckBean.setCheckDate(DateUtil.formatDateTime(DateUtil.SIMPLE_DATE_FROMAT, XMLDateUtils.convertToDate(document.getTtlChck().getTtlChckInf().getChckDt())));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			List<CheckPaymentInformationDetails1> chckPmtInfDtls = document.getTtlChck().getTtlChckInf().getChckPmtInf().getChckPmtInfDtls();
 			List<TotalCheckPaymentBean> checkPaymentBeanList = Lists.newArrayList();
 			for(CheckPaymentInformationDetails1 detail : chckPmtInfDtls){
@@ -41,7 +47,11 @@ public class CheckInformationImpl implements CheckInformation {
 				bean.setReceiveTotalCount(detail.getRcvTtlCnt());
 				bean.setSendTotalAmount(detail.getSndTtlAmt());
 				bean.setSendTotalCount(detail.getSndTtlCnt());
-				//bean.setTransactionNettingDate(detail.getTxNetgDt());
+				try {
+					bean.setTransactionNettingDate(DateUtil.formatDateTime(DateUtil.SIMPLE_DATE_FROMAT, XMLDateUtils.convertToDate(detail.getTxNetgDt())));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				bean.setTransactionNettingRound(detail.getTxNetgRnd());
 				checkPaymentBeanList.add(bean);
 			}
@@ -51,7 +61,11 @@ public class CheckInformationImpl implements CheckInformation {
 			for(CheckMessageDetails1 detail : chckMsgDtls){
 				TotalCheckMessageBean bean = new TotalCheckMessageBean();
 				bean.setMessageType(detail.getMT());
-				//bean.setReceiveDate(detail.getRcvDt());
+				try {
+					bean.setReceiveDate(DateUtil.formatDateTime(DateUtil.SIMPLE_DATE_FROMAT, XMLDateUtils.convertToDate(detail.getRcvDt())));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				bean.setReceiveTotalCount(detail.getRcvTtlCnt());
 				bean.setSendTotalCount(detail.getSndTtlCnt());
 				totalCheckMessageList.add(bean);
@@ -65,7 +79,7 @@ public class CheckInformationImpl implements CheckInformation {
 
 	@Override
 	public ResultBean detailCheck(DetailCheckBean detailCheckBean) {
-		com.zcbspay.platform.cnaps.beps.message.bean.ResultBean resultBean = bepsMessageService.detailCheckRequest(BeanCopyUtil.copyBean(com.zcbspay.platform.cnaps.beps.message.bean.DetailCheckBean.class, detailCheckBean));
+		com.zcbspay.platform.cnaps.message.bean.ResultBean resultBean = bepsMessageService.detailCheckRequest(BeanCopyUtil.copyBean(com.zcbspay.platform.cnaps.message.bean.DetailCheckBean.class, detailCheckBean));
 		return BeanCopyUtil.copyBean(ResultBean.class, resultBean);
 	}
 

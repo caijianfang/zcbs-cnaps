@@ -13,9 +13,9 @@ import com.zcbspay.platform.cnaps.application.dao.CnapsContractDAO;
 import com.zcbspay.platform.cnaps.application.dao.pojo.CnapsContractDO;
 import com.zcbspay.platform.cnaps.beps.bean.BatchCustomersContractManageResponse.AccountDetails1;
 import com.zcbspay.platform.cnaps.beps.bean.BatchCustomersContractManageResponse.Document;
-import com.zcbspay.platform.cnaps.beps.message.BEPSMessageService;
-import com.zcbspay.platform.cnaps.beps.message.bean.ContractOperationEnum;
 import com.zcbspay.platform.cnaps.common.bean.ResultBean;
+import com.zcbspay.platform.cnaps.message.bean.ContractOperationEnum;
+import com.zcbspay.platform.cnaps.message.beps.BEPSMessageService;
 import com.zcbspay.platform.cnaps.utils.BeanCopyUtil;
 
 @Service
@@ -35,7 +35,7 @@ public class AssistBusinesServiceImpl implements AssistBusinesService {
 			}
 		}
 		//调用CNAPS接口查询
-		com.zcbspay.platform.cnaps.beps.message.bean.ResultBean resultBean = bepsMessageService.batchCustomersContractManage(BeanCopyUtil.copyBean(com.zcbspay.platform.cnaps.beps.message.bean.ContractBean.class, contractBean), ContractOperationEnum.QUERY);
+		com.zcbspay.platform.cnaps.message.bean.ResultBean resultBean = bepsMessageService.batchCustomersContractManage(BeanCopyUtil.copyBean(com.zcbspay.platform.cnaps.message.bean.ContractBean.class, contractBean), ContractOperationEnum.QUERY);
 		if(resultBean.isResultBool()){
 			//需根据返回报文进行赋值处理
 			Document doc = (Document) resultBean.getResultObj();
@@ -54,7 +54,7 @@ public class AssistBusinesServiceImpl implements AssistBusinesService {
 
 	@Override
 	public ResultBean addContract(ContractBean contractBean) {
-		com.zcbspay.platform.cnaps.beps.message.bean.ResultBean resultBean = bepsMessageService.batchCustomersContractManage(BeanCopyUtil.copyBean(com.zcbspay.platform.cnaps.beps.message.bean.ContractBean.class, contractBean), ContractOperationEnum.ADD);
+		com.zcbspay.platform.cnaps.message.bean.ResultBean resultBean = bepsMessageService.batchCustomersContractManage(BeanCopyUtil.copyBean(com.zcbspay.platform.cnaps.message.bean.ContractBean.class, contractBean), ContractOperationEnum.ADD);
 		if(resultBean.isResultBool()){
 			//需根据返回报文进行赋值处理
 			Document doc = (Document) resultBean.getResultObj();
@@ -74,7 +74,7 @@ public class AssistBusinesServiceImpl implements AssistBusinesService {
 
 	@Override
 	public ResultBean repealContract(ContractBean contractBean) {
-		com.zcbspay.platform.cnaps.beps.message.bean.ResultBean resultBean = bepsMessageService.batchCustomersContractManage(BeanCopyUtil.copyBean(com.zcbspay.platform.cnaps.beps.message.bean.ContractBean.class, contractBean), ContractOperationEnum.CANCEL);
+		com.zcbspay.platform.cnaps.message.bean.ResultBean resultBean = bepsMessageService.batchCustomersContractManage(BeanCopyUtil.copyBean(com.zcbspay.platform.cnaps.message.bean.ContractBean.class, contractBean), ContractOperationEnum.CANCEL);
 		if(resultBean.isResultBool()){
 			//CnapsContractDO cnapsContract = BeanCopyUtil.copyBean(CnapsContractDO.class, contractBean);
 			//需根据返回报文进行赋值处理
@@ -93,7 +93,7 @@ public class AssistBusinesServiceImpl implements AssistBusinesService {
 
 	@Override
 	public ResultBean queryAccount(AccountBean accountBean) {
-		com.zcbspay.platform.cnaps.beps.message.bean.ResultBean resultBean = bepsMessageService.batchCustomersAccountQuery(BeanCopyUtil.copyBean(com.zcbspay.platform.cnaps.beps.message.bean.AccountBean.class, accountBean));
+		com.zcbspay.platform.cnaps.message.bean.ResultBean resultBean = bepsMessageService.batchCustomersAccountQuery(BeanCopyUtil.copyBean(com.zcbspay.platform.cnaps.message.bean.AccountBean.class, accountBean));
 		if(resultBean.isResultBool()){
 			com.zcbspay.platform.cnaps.beps.bean.BatchCustomersAccountQueryResponse.Document document = (com.zcbspay.platform.cnaps.beps.bean.BatchCustomersAccountQueryResponse.Document) resultBean.getResultObj();
 			List<com.zcbspay.platform.cnaps.beps.bean.BatchCustomersAccountQueryResponse.AccountDetails1> acctDtls = document.getBtchCstmrsAcctQryRspn().getBtchCstmrsAcctQryRspnInf().getAcctDtls();

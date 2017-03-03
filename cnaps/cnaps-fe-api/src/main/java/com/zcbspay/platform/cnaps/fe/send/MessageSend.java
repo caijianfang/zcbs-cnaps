@@ -1,8 +1,8 @@
 package com.zcbspay.platform.cnaps.fe.send;
 
 import com.zcbspay.platform.cnaps.fe.send.bean.MessageCodeEnum;
+import com.zcbspay.platform.cnaps.fe.send.bean.ResultBean;
 import com.zcbspay.platform.cnaps.fe.send.bean.SendResult;
-
 
 /**
  * 报文发送接口
@@ -14,11 +14,21 @@ import com.zcbspay.platform.cnaps.fe.send.bean.SendResult;
  */
 public interface MessageSend {
 
-	/**
-	 * 报文发送方法 ,依据MessageCodeEnum选择发送的队列
-	 * @param message 业务消息报文
-	 * @param messageCodeEnum 报文类型
-	 * @return SendResult
-	 */
-	public SendResult send(String message, MessageCodeEnum messageCodeEnum);
+    /**
+     * 报文发送方法 ,依据MessageCodeEnum选择发送的队列
+     * 
+     * @param message
+     *            业务消息报文
+     * @param messageCodeEnum
+     *            报文类型
+     * @return SendResult
+     */
+    public SendResult send(String message, MessageCodeEnum messageCodeEnum);
+
+    /**
+     * 查询结果
+     * 
+     * @return 结果bean
+     */
+    public ResultBean queryReturnResult(String msgId);
 }

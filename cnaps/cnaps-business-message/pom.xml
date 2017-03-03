@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.zcbspay.platform</groupId>
+    <artifactId>cnaps</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+  </parent>
+  <artifactId>cnaps-business-message</artifactId>
+  <name>cnaps-business-message</name>
+  <url>http://maven.apache.org</url>
+  <description>人行渠道业务报文模块</description>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+  <dependencies>
+    <dependency>
+    	<groupId>com.zcbspay.platform</groupId>
+    	<artifactId>cnaps-message-bean</artifactId>
+    	<version>1.0.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+    	<groupId>com.zcbspay.platform</groupId>
+    	<artifactId>cnaps-business-message-api</artifactId>
+    	<version>1.0.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+    	<groupId>com.zcbspay.platform</groupId>
+    	<artifactId>cnaps-common</artifactId>
+    	<version>1.0.0-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
+</project>

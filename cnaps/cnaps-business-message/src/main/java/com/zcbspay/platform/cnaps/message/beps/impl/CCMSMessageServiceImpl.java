@@ -2,18 +2,27 @@ package com.zcbspay.platform.cnaps.message.beps.impl;
 
 import javax.xml.bind.JAXBException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.zcbspay.platform.cnaps.bean.MessageBean;
 import com.zcbspay.platform.cnaps.bean.MessageTypeEnum;
+import com.zcbspay.platform.cnaps.bean.utils.XMLDateUtils;
 import com.zcbspay.platform.cnaps.bean.utils.XMLUtils;
+import com.zcbspay.platform.cnaps.ccms.bean.CommonConfirmation.GroupHeader1;
+import com.zcbspay.platform.cnaps.ccms.bean.CommonConfirmation.OrgnlGrpHdr1;
 import com.zcbspay.platform.cnaps.message.bean.BusiQueryBean;
 import com.zcbspay.platform.cnaps.message.bean.ResultBean;
 import com.zcbspay.platform.cnaps.message.ccms.CCMSMessageService;
+import com.zcbspay.platform.cnaps.message.dao.CnapsLogDAO;
+import com.zcbspay.platform.cnaps.message.pojo.CnapsLogDO;
+import com.zcbspay.platform.cnaps.utils.DateUtil;
 
 @Service
 public class CCMSMessageServiceImpl implements CCMSMessageService {
 
+	@Autowired
+	private CnapsLogDAO cnapsLogDAO;
 	@Override
 	public void freeFormat() {
 		// TODO Auto-generated method stub
@@ -140,6 +149,43 @@ public class CCMSMessageServiceImpl implements CCMSMessageService {
 		try {
 			MessageBean messageBean = XMLUtils.parseToBean(message, MessageTypeEnum.CCMS900);
 			com.zcbspay.platform.cnaps.ccms.bean.CommonConfirmation.Document document = (com.zcbspay.platform.cnaps.ccms.bean.CommonConfirmation.Document)messageBean.getCNAPSMessageBean();
+			GroupHeader1 grpHdr = document.getCmonConf().getGrpHdr();
+			OrgnlGrpHdr1 orgnlGrpHdr = document.getCmonConf().getOrgnlGrpHdr();
+			CnapsLogDO cnapsLog = new CnapsLogDO();
+			//业务头组件
+			cnapsLog.setMsgid(grpHdr.getMsgId());
+			cnapsLog.setSyscode(grpHdr.getSysCd().value());
+			cnapsLog.setMsgtype(MessageTypeEnum.CCMS900.value());
+			try {
+				cnapsLog.setCreatedate(DateUtil.formatDateTime(DateUtil.SIMPLE_DATE_FROMAT, XMLDateUtils.convertToDate(grpHdr.getCreDtTm())));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			cnapsLog.setInstructeddirectparty(grpHdr.getInstdPty().getInstdDrctPty());
+			cnapsLog.setInstructedparty(grpHdr.getInstdPty().getInstdPty());
+			cnapsLog.setInstructingdirectparty(grpHdr.getInstgPty().getInstgDrctPty());
+			cnapsLog.setInstructingparty(grpHdr.getInstgPty().getInstgPty());
+			//原报文主键组件
+			cnapsLog.setOrgnlmsgid(orgnlGrpHdr.getOrgnlMsgId());
+			cnapsLog.setOrgnlinstgpty(orgnlGrpHdr.getOrgnlInstgPty());
+			cnapsLog.setOriginalmessagetype(orgnlGrpHdr.getOrgnlMT());
+			//保存人行核心交易流水数据
+			cnapsLogDAO.saveCNAPSLog(cnapsLog);
+			
+			
+			
+			MessageTypeEnum OrgnMsgType = MessageTypeEnum.fromValue(cnapsLog.getOriginalmessagetype());
+			switch (OrgnMsgType) {
+				case BEPS380:
+					
+					break;
+				case CCMS900:
+					
+					break;
+				default:
+					break;
+			}
 			
 		} catch (JAXBException e) {
 			// TODO Auto-generated catch block

@@ -1,73 +1,73 @@
 /.settings/
 /.project
 
-cnaps-application/.settings/
-cnaps-application/target/
-cnaps-application/.classpath
-cnaps-application/.project
+/cnaps-application/.settings/
+/cnaps-application/target/
+/cnaps-application/.classpath
+/cnaps-application/.project
 
-cnaps-application-api/.settings/
-cnaps-application-api/target/
-cnaps-application-api/.classpath
-cnaps-application-api/.project
+/cnaps-application-api/.settings/
+/cnaps-application-api/target/
+/cnaps-application-api/.classpath
+/cnaps-application-api/.project
 
-cnaps-application-simple/.settings/
-cnaps-application-simple/target/
-cnaps-application-simple/.classpath
-cnaps-application-simple/.project
+/cnaps-application-simple/.settings/
+/cnaps-application-simple/target/
+/cnaps-application-simple/.classpath
+/cnaps-application-simple/.project
 
-cnaps-business-message/.settings/
-cnaps-business-message/target/
-cnaps-business-message/.classpath
-cnaps-business-message/.project
+/cnaps-business-message/.settings/
+/cnaps-business-message/target/
+/cnaps-business-message/.classpath
+/cnaps-business-message/.project
 
-cnaps-business-message-api/.settings/
-cnaps-business-message-api/target/
-cnaps-business-message-api/.classpath
-cnaps-business-message-api/.project
+/cnaps-business-message-api/.settings/
+/cnaps-business-message-api/target/
+/cnaps-business-message-api/.classpath
+/cnaps-business-message-api/.project
 
-cnaps-business-message-simple/.settings/
-cnaps-business-message-simple/target/
-cnaps-business-message-simple/.classpath
-cnaps-business-message-simple/.project
+/cnaps-business-message-simple/.settings/
+/cnaps-business-message-simple/target/
+/cnaps-business-message-simple/.classpath
+/cnaps-business-message-simple/.project
 
-cnaps-common/.settings/
-cnaps-common/target/
-cnaps-common/.classpath
-cnaps-common/.project
+/cnaps-common/.settings/
+/cnaps-common/target/
+/cnaps-common/.classpath
+/cnaps-common/.project
 
-cnaps-fe/.settings/
-cnaps-fe/target/
-cnaps-fe/.classpath
-cnaps-fe/.project
+/cnaps-fe/.settings/
+/cnaps-fe/target/
+/cnaps-fe/.classpath
+/cnaps-fe/.project
 
-cnaps-fe-api/.settings/
-cnaps-fe-api/target/
-cnaps-fe-api/.classpath
-cnaps-fe-api/.project
+/cnaps-fe-api/.settings/
+/cnaps-fe-api/target/
+/cnaps-fe-api/.classpath
+/cnaps-fe-api/.project
 
-cnaps-fe-simple/.settings/
-cnaps-fe-simple/target/
-cnaps-fe-simple/.classpath
-cnaps-fe-simple/.project
+/cnaps-fe-simple/.settings/
+/cnaps-fe-simple/target/
+/cnaps-fe-simple/.classpath
+/cnaps-fe-simple/.project
 
-cnaps-message-bean/.settings/
-cnaps-message-bean/target/
-cnaps-message-bean/.classpath
-cnaps-message-bean/.project
+/cnaps-message-bean/.settings/
+/cnaps-message-bean/target/
+/cnaps-message-bean/.classpath
+/cnaps-message-bean/.project
 
-cnaps-transfer-message/.settings/
-cnaps-transfer-message/target/
-cnaps-transfer-message/.classpath
-cnaps-transfer-message/.project
+/cnaps-transfer-message/.settings/
+/cnaps-transfer-message/target/
+/cnaps-transfer-message/.classpath
+/cnaps-transfer-message/.project
 
-cnaps-transfer-message-api/.settings/
-cnaps-transfer-message-api/target/
-cnaps-transfer-message-api/.classpath
-cnaps-transfer-message-api/.project
+/cnaps-transfer-message-api/.settings/
+/cnaps-transfer-message-api/target/
+/cnaps-transfer-message-api/.classpath
+/cnaps-transfer-message-api/.project
 
-cnaps-transfer-message-simple/.settings/
-cnaps-transfer-message-simple/target/
-cnaps-transfer-message-simple/.classpath
-cnaps-transfer-message-simple/.project
+/cnaps-transfer-message-simple/.settings/
+/cnaps-transfer-message-simple/target/
+/cnaps-transfer-message-simple/.classpath
+/cnaps-transfer-message-simple/.project
 

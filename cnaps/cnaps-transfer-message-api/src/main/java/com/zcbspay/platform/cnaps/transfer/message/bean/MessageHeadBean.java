@@ -2,7 +2,7 @@ package com.zcbspay.platform.cnaps.transfer.message.bean;
 
 import java.io.Serializable;
 
-public class MessageHeadBean implements Serializable{
+public class MessageHeadBean implements Serializable {
 
 	/**
 	 * serialVersionUID
@@ -57,14 +57,10 @@ public class MessageHeadBean implements Serializable{
 	 */
 	private String mesgRefID;
 	/**
-	 * 报文优先级
-		1：特急；
-		2：紧急；
-		3：普通；
+	 * 报文优先级 1：特急； 2：紧急； 3：普通；
 	 */
 	private String mesgPriority;
 	/**
-	 * 报文传输方向
 		由行内发出：U
 		由NPC发出：D
 	 */
@@ -77,17 +73,44 @@ public class MessageHeadBean implements Serializable{
 	 * 结束标识
 	 */
 	private String endFlag;
-	
 	public String toString(){
-		return null;
+		msgHeadStr.append(beginFlag)
+				.append(versionID)
+				.append(origSender)
+				.append(origSenderSID)
+				.append(origReceiver)
+				.append(origReceiverSID)
+				.append(origSendDate)
+				.append(origSendTime)
+				.append(structType)
+				.append(mesgType)
+				.append(mesgID)
+				.append(mesgRefID)
+				.append(mesgPriority)
+				.append(mesgDirection)
+				.append(reserve)
+				.append(endFlag);
+		return msgHeadStr.toString();
 	}
-	
 	public MessageHeadBean(String headMsg){
-		
+		this.beginFlag = headMsg.substring(0, 3);
+		this.versionID = headMsg.substring(3, 5);
+		this.origSender = headMsg.substring(5,19);
+		this.origSenderSID = headMsg.substring(19, 23);
+		this.origReceiver = headMsg.substring(23, 37);
+		this.origReceiverSID = headMsg.substring(37, 41);
+		this.origSendDate = headMsg.substring(41, 49);
+		this.origSendTime = headMsg.substring(49, 55);
+		this.structType = headMsg.substring(55, 58);
+		this.mesgType = headMsg.substring(58, 78);
+		this.mesgID = headMsg.substring(78, 98);
+		this.mesgRefID = headMsg.substring(98, 118);
+		this.mesgPriority = headMsg.substring(118, 119);
+		this.mesgDirection = headMsg.substring(119, 120);
+		this.reserve = headMsg.substring(120, 129);
+		this.endFlag = headMsg.substring(129, 132);
 	}
-	
 	public MessageHeadBean(){
-		
 	}
 
 	public String getBeginFlag() {
@@ -217,7 +240,6 @@ public class MessageHeadBean implements Serializable{
 	public void setEndFlag(String endFlag) {
 		this.endFlag = endFlag;
 	}
-	
 	
 	
 }

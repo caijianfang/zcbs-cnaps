@@ -52,6 +52,10 @@ public class CollectionChargesDetailBean implements Serializable{
 	 * 明细标识号
 	 */
 	private String txId;
+	/**
+	 * 业务种类编码
+	 */
+	private String purposeProprietary;
 	
 	public String getDebtorName() {
 		return debtorName;
@@ -106,6 +110,12 @@ public class CollectionChargesDetailBean implements Serializable{
 	}
 	public void setTxnseqno(String txnseqno) {
 		this.txnseqno = txnseqno;
+	}
+	public String getPurposeProprietary() {
+		return purposeProprietary;
+	}
+	public void setPurposeProprietary(String purposeProprietary) {
+		this.purposeProprietary = purposeProprietary;
 	}
 	
 }

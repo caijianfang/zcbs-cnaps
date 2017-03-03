@@ -1,6 +1,8 @@
 package com.zcbspay.platform.cnaps.message.dao.impl;
 
 import org.hibernate.Query;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,6 +14,8 @@ import com.zcbspay.platform.cnaps.message.pojo.CnapsCollectBatchLogDO;
 public class CnapsCollectBatchLogDAOImpl extends HibernateBaseDAOImpl<CnapsCollectBatchLogDO>
 		implements CnapsCollectBatchLogDAO {
 
+	private static final Logger logger = LoggerFactory.getLogger(CnapsCollectBatchLogDAOImpl.class);
+	
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED,rollbackFor=Throwable.class)
 	public void saveCollectBatch(CnapsCollectBatchLogDO cnapsCollectBatchLog) {
@@ -46,7 +50,8 @@ public class CnapsCollectBatchLogDAOImpl extends HibernateBaseDAOImpl<CnapsColle
 		query.setParameter(6, cmonConfInfoBean.getNettinground());
 		query.setParameter(7, cmonConfInfoBean.getDate());
 		query.setParameter(8, cmonConfInfoBean.getMsgId());
-		query.executeUpdate();
+		int rows = query.executeUpdate();
+		logger.info("hql:{},effect rows:{}",hqlBuffer.toString(),rows);
 	}
 
 	

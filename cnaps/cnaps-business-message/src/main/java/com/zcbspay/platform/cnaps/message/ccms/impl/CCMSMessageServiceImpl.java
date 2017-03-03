@@ -1,4 +1,4 @@
-package com.zcbspay.platform.cnaps.message.beps.impl;
+package com.zcbspay.platform.cnaps.message.ccms.impl;
 
 import javax.xml.bind.JAXBException;
 
@@ -9,12 +9,15 @@ import com.zcbspay.platform.cnaps.bean.MessageBean;
 import com.zcbspay.platform.cnaps.bean.MessageTypeEnum;
 import com.zcbspay.platform.cnaps.bean.utils.XMLDateUtils;
 import com.zcbspay.platform.cnaps.bean.utils.XMLUtils;
+import com.zcbspay.platform.cnaps.ccms.bean.CommonConfirmation.CmonConfInf1;
 import com.zcbspay.platform.cnaps.ccms.bean.CommonConfirmation.GroupHeader1;
 import com.zcbspay.platform.cnaps.ccms.bean.CommonConfirmation.OrgnlGrpHdr1;
 import com.zcbspay.platform.cnaps.message.bean.BusiQueryBean;
 import com.zcbspay.platform.cnaps.message.bean.ResultBean;
 import com.zcbspay.platform.cnaps.message.ccms.CCMSMessageService;
+import com.zcbspay.platform.cnaps.message.dao.CnapsCollectBatchLogDAO;
 import com.zcbspay.platform.cnaps.message.dao.CnapsLogDAO;
+import com.zcbspay.platform.cnaps.message.dao.bean.CmonConfInfoBean;
 import com.zcbspay.platform.cnaps.message.pojo.CnapsLogDO;
 import com.zcbspay.platform.cnaps.utils.DateUtil;
 
@@ -23,6 +26,8 @@ public class CCMSMessageServiceImpl implements CCMSMessageService {
 
 	@Autowired
 	private CnapsLogDAO cnapsLogDAO;
+	@Autowired
+	private CnapsCollectBatchLogDAO cnapsCollectBatchLogDAO; 
 	@Override
 	public void freeFormat() {
 		// TODO Auto-generated method stub
@@ -151,6 +156,7 @@ public class CCMSMessageServiceImpl implements CCMSMessageService {
 			com.zcbspay.platform.cnaps.ccms.bean.CommonConfirmation.Document document = (com.zcbspay.platform.cnaps.ccms.bean.CommonConfirmation.Document)messageBean.getCNAPSMessageBean();
 			GroupHeader1 grpHdr = document.getCmonConf().getGrpHdr();
 			OrgnlGrpHdr1 orgnlGrpHdr = document.getCmonConf().getOrgnlGrpHdr();
+			CmonConfInf1 cmonConfInf = document.getCmonConf().getCmonConfInf();
 			CnapsLogDO cnapsLog = new CnapsLogDO();
 			//业务头组件
 			cnapsLog.setMsgid(grpHdr.getMsgId());
@@ -178,7 +184,22 @@ public class CCMSMessageServiceImpl implements CCMSMessageService {
 			MessageTypeEnum OrgnMsgType = MessageTypeEnum.fromValue(cnapsLog.getOriginalmessagetype());
 			switch (OrgnMsgType) {
 				case BEPS380:
-					
+					CmonConfInfoBean cmonConfInfoBean = new CmonConfInfoBean();
+					cmonConfInfoBean.setDate(DateUtil.getCurrentDateTime());
+					cmonConfInfoBean.setMsgId(orgnlGrpHdr.getOrgnlMsgId());
+					cmonConfInfoBean.setNettinground(cmonConfInf.getNetgRnd());
+					cmonConfInfoBean.setPartyidentification(cmonConfInf.getPtyId());
+					cmonConfInfoBean.setPartyprocesscode(cmonConfInf.getPtyPrcCd());
+					cmonConfInfoBean.setProcesscode(cmonConfInf.getPrcCd());
+					try {
+						cmonConfInfoBean.setProcessdate(DateUtil.formatDateTime(DateUtil.SIMPLE_DATE_FROMAT, XMLDateUtils.convertToDate(cmonConfInf.getPrcDt())));
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					cmonConfInfoBean.setProcessstatus(cmonConfInf.getPrcSts());
+					cmonConfInfoBean.setRejectinformation(cmonConfInf.getRjctInf());
+					cnapsCollectBatchLogDAO.updateCollectBatchCommRSP(cmonConfInfoBean);
 					break;
 				case CCMS900:
 					

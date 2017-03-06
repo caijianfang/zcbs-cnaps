@@ -59,8 +59,21 @@ public class CollectionChargesTotalBean implements Serializable{
 	 * 报文标识号
 	 */
 	private String msgId;
-	
+	/**
+	 * 代收明细列表
+	 */
 	private List<CollectionChargesDetailBean> detailList;
+	
+	//保存交易数据时使用，业务应用层不对以下属性赋值
+	private String createdate;
+	private String instructingdirectparty;
+	private String instructingparty;
+	private String instructeddirectparty;
+	private String instructedparty;
+	private String batchno;
+	private String transmitdate;
+	private String returnlimited;
+	
 	
 	public String getDebtorAgentCode() {
 		return debtorAgentCode;
@@ -127,6 +140,54 @@ public class CollectionChargesTotalBean implements Serializable{
 	}
 	public void setMsgId(String msgId) {
 		this.msgId = msgId;
+	}
+	public String getCreatedate() {
+		return createdate;
+	}
+	public void setCreatedate(String createdate) {
+		this.createdate = createdate;
+	}
+	public String getInstructingdirectparty() {
+		return instructingdirectparty;
+	}
+	public void setInstructingdirectparty(String instructingdirectparty) {
+		this.instructingdirectparty = instructingdirectparty;
+	}
+	public String getInstructingparty() {
+		return instructingparty;
+	}
+	public void setInstructingparty(String instructingparty) {
+		this.instructingparty = instructingparty;
+	}
+	public String getInstructeddirectparty() {
+		return instructeddirectparty;
+	}
+	public void setInstructeddirectparty(String instructeddirectparty) {
+		this.instructeddirectparty = instructeddirectparty;
+	}
+	public String getInstructedparty() {
+		return instructedparty;
+	}
+	public void setInstructedparty(String instructedparty) {
+		this.instructedparty = instructedparty;
+	}
+	public String getBatchno() {
+		return batchno;
+	}
+	public void setBatchno(String batchno) {
+		this.batchno = batchno;
+	}
+	public String getTransmitdate() {
+		return transmitdate;
+	}
+	public void setTransmitdate(String transmitdate) {
+		this.transmitdate = transmitdate;
+	}
+	public String getReturnlimited() {
+		return returnlimited;
+	}
+	public void setReturnlimited(String returnlimited) {
+		this.returnlimited = returnlimited;
 	}
 	
 }

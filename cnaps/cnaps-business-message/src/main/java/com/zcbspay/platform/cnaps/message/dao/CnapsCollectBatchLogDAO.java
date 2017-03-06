@@ -1,6 +1,7 @@
 package com.zcbspay.platform.cnaps.message.dao;
 
 import com.zcbspay.platform.cnaps.common.dao.BaseDAO;
+import com.zcbspay.platform.cnaps.message.bean.CollectionChargesTotalBean;
 import com.zcbspay.platform.cnaps.message.dao.bean.CmonConfInfoBean;
 import com.zcbspay.platform.cnaps.message.pojo.CnapsCollectBatchLogDO;
 
@@ -18,4 +19,9 @@ public interface CnapsCollectBatchLogDAO extends BaseDAO<CnapsCollectBatchLogDO>
 	 */
 	public void updateCollectBatchCommRSP(CmonConfInfoBean cmonConfInfoBean);
 	
+	/**
+	 * 保存批量代收交易流水
+	 * @param totalBean
+	 */
+	public void saveBatchCollectionCharges(CollectionChargesTotalBean totalBean);
 }

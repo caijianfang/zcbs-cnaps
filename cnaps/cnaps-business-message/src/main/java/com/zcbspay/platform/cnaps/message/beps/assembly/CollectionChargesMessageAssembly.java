@@ -8,6 +8,9 @@ import com.zcbspay.platform.cnaps.bean.DefaultMessageBean;
 import com.zcbspay.platform.cnaps.bean.MessageBean;
 import com.zcbspay.platform.cnaps.bean.MessageTypeEnum;
 import com.zcbspay.platform.cnaps.bean.utils.XMLDateUtils;
+import com.zcbspay.platform.cnaps.beps.bean.RealTimeCollectionCharges.DbtrCdtrAgt1;
+import com.zcbspay.platform.cnaps.beps.bean.RealTimeCollectionCharges.RealTmColltnChrgsInf1;
+import com.zcbspay.platform.cnaps.beps.bean.RealTimeCollectionCharges.RealTmColltnChrgsV01;
 import com.zcbspay.platform.cnaps.beps.bean.batchcollectioncharges.ActiveCurrencyAndAmount;
 import com.zcbspay.platform.cnaps.beps.bean.batchcollectioncharges.BrnchId1;
 import com.zcbspay.platform.cnaps.beps.bean.batchcollectioncharges.BtchColltnChrgsInf1;
@@ -30,6 +33,7 @@ import com.zcbspay.platform.cnaps.beps.bean.batchcollectioncharges.PmtTpInf1;
 import com.zcbspay.platform.cnaps.beps.bean.batchcollectioncharges.Purp1;
 import com.zcbspay.platform.cnaps.message.bean.CollectionChargesDetailBean;
 import com.zcbspay.platform.cnaps.message.bean.CollectionChargesTotalBean;
+import com.zcbspay.platform.cnaps.message.bean.SingleCollectionChargesDetailBean;
 import com.zcbspay.platform.cnaps.message.untils.Constant;
 import com.zcbspay.platform.cnaps.utils.DateUtil;
 
@@ -157,6 +161,99 @@ public class CollectionChargesMessageAssembly {
 		document.setBtchColltnChrgs(btchColltnChrgs);
 		
 		MessageBean messageBean = new DefaultMessageBean(document, MessageTypeEnum.BEPS380);
+		return messageBean;
+	}
+	
+	public static MessageBean realTimeCollectionCharges(SingleCollectionChargesDetailBean singleBean){
+		com.zcbspay.platform.cnaps.beps.bean.RealTimeCollectionCharges.Document document = new com.zcbspay.platform.cnaps.beps.bean.RealTimeCollectionCharges.Document();
+		RealTmColltnChrgsV01 realTmColltnChrgsV01 = new RealTmColltnChrgsV01();
+		//业务头
+		com.zcbspay.platform.cnaps.beps.bean.RealTimeCollectionCharges.GroupHeader1 groupHeader = new com.zcbspay.platform.cnaps.beps.bean.RealTimeCollectionCharges.GroupHeader1();
+		groupHeader.setSysCd(com.zcbspay.platform.cnaps.beps.bean.RealTimeCollectionCharges.SystemCode1.BEPS);
+		groupHeader.setCreDtTm(XMLDateUtils.convert2XMLGregorianCalendar(new Date()));
+		try {
+			singleBean.setCreatedate(DateUtil.formatDateTime(DateUtil.DEFAULT_DATE_FROMAT, XMLDateUtils.convertToDate(groupHeader.getCreDtTm())));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		groupHeader.setMsgId(singleBean.getMsgId());
+		com.zcbspay.platform.cnaps.beps.bean.RealTimeCollectionCharges.InstgPty1 instgPty = new com.zcbspay.platform.cnaps.beps.bean.RealTimeCollectionCharges.InstgPty1();
+		instgPty.setInstgDrctPty(Constant.getInstance().getInstgDrctPty());//发起直接参与机构
+		instgPty.setInstgPty(Constant.getInstance().getInstgPty());//发起参与机构
+		singleBean.setInstructingdirectparty(Constant.getInstance().getInstgDrctPty());
+		singleBean.setInstructingparty(Constant.getInstance().getInstgPty());
+		groupHeader.setInstgPty(instgPty);
+		com.zcbspay.platform.cnaps.beps.bean.RealTimeCollectionCharges.InstdPty1 instdPty = new com.zcbspay.platform.cnaps.beps.bean.RealTimeCollectionCharges.InstdPty1();
+		groupHeader.setInstdPty(instdPty);
+		instdPty.setInstdDrctPty(singleBean.getDebtorAgentCode());//接收直接参与机构
+		instdPty.setInstdPty(singleBean.getDebtorAgentCode());//接收参与机构
+		singleBean.setInstructeddirectparty(singleBean.getDebtorAgentCode());
+		singleBean.setInstructingparty(singleBean.getDebtorAgentCode());
+		realTmColltnChrgsV01.setGrpHdr(groupHeader);
+		
+		//业务报文体
+		RealTmColltnChrgsInf1 realTmColltnChrgsInf = new RealTmColltnChrgsInf1();
+		realTmColltnChrgsInf.setBtchNb(singleBean.getBatchNo());
+		realTmColltnChrgsInf.setTxId(singleBean.getTxId());
+		com.zcbspay.platform.cnaps.beps.bean.RealTimeCollectionCharges.DbtrCdtr1 cdtr = new com.zcbspay.platform.cnaps.beps.bean.RealTimeCollectionCharges.DbtrCdtr1();
+		cdtr.setNm(singleBean.getDebtorName());
+		realTmColltnChrgsInf.setDbtr(cdtr);
+		com.zcbspay.platform.cnaps.beps.bean.RealTimeCollectionCharges.DbtrCdtrAcct1 dbtrCdtrAcct = new com.zcbspay.platform.cnaps.beps.bean.RealTimeCollectionCharges.DbtrCdtrAcct1();
+		com.zcbspay.platform.cnaps.beps.bean.RealTimeCollectionCharges.Id1 id1 = new com.zcbspay.platform.cnaps.beps.bean.RealTimeCollectionCharges.Id1();
+		com.zcbspay.platform.cnaps.beps.bean.RealTimeCollectionCharges.Othr1 othr1 = new com.zcbspay.platform.cnaps.beps.bean.RealTimeCollectionCharges.Othr1();
+		othr1.setId(singleBean.getDebtorAccountNo());
+		id1.setOthr(othr1);
+		dbtrCdtrAcct.setId(id1);
+		realTmColltnChrgsInf.setDbtrAcct(dbtrCdtrAcct);
+		DbtrCdtrAgt1 dbtrCdtrAgt = new DbtrCdtrAgt1();
+		com.zcbspay.platform.cnaps.beps.bean.RealTimeCollectionCharges.BrnchId1 brnchId1 = new com.zcbspay.platform.cnaps.beps.bean.RealTimeCollectionCharges.BrnchId1();
+		brnchId1.setId(singleBean.getDebtorBranchCode());
+		dbtrCdtrAgt.setBrnchId(brnchId1 );
+		com.zcbspay.platform.cnaps.beps.bean.RealTimeCollectionCharges.FIId1 fiId1 = new com.zcbspay.platform.cnaps.beps.bean.RealTimeCollectionCharges.FIId1();
+		com.zcbspay.platform.cnaps.beps.bean.RealTimeCollectionCharges.ClrSysMmbId1 clrSysMmbId1 = new com.zcbspay.platform.cnaps.beps.bean.RealTimeCollectionCharges.ClrSysMmbId1();
+		clrSysMmbId1.setMmbId(singleBean.getDebtorAgentCode());
+		fiId1.setClrSysMmbId(clrSysMmbId1);
+		dbtrCdtrAgt.setFIId(fiId1 );
+		realTmColltnChrgsInf.setDbtrAgt(dbtrCdtrAgt);
+		DbtrCdtrAgt1 dbtrCdtrAgt1 = new DbtrCdtrAgt1();
+		com.zcbspay.platform.cnaps.beps.bean.RealTimeCollectionCharges.FIId1 fiId12 = new com.zcbspay.platform.cnaps.beps.bean.RealTimeCollectionCharges.FIId1();
+		com.zcbspay.platform.cnaps.beps.bean.RealTimeCollectionCharges.ClrSysMmbId1 clrSysMmbId12 = new com.zcbspay.platform.cnaps.beps.bean.RealTimeCollectionCharges.ClrSysMmbId1();
+		clrSysMmbId12.setMmbId(singleBean.getCreditorAgentCode());
+		fiId12.setClrSysMmbId(clrSysMmbId12);
+		dbtrCdtrAgt1.setFIId(fiId12);
+		com.zcbspay.platform.cnaps.beps.bean.RealTimeCollectionCharges.BrnchId1 brnchId12 = new com.zcbspay.platform.cnaps.beps.bean.RealTimeCollectionCharges.BrnchId1();
+		brnchId12.setId(singleBean.getCreditorBranchCode());
+		dbtrCdtrAgt1.setBrnchId(brnchId12);
+		realTmColltnChrgsInf.setCdtrAgt(dbtrCdtrAgt1);
+		com.zcbspay.platform.cnaps.beps.bean.RealTimeCollectionCharges.DbtrCdtr1 dbtrCdtr1 = new com.zcbspay.platform.cnaps.beps.bean.RealTimeCollectionCharges.DbtrCdtr1();
+		dbtrCdtr1.setNm(singleBean.getCreditorName());
+		realTmColltnChrgsInf.setCdtr(dbtrCdtr1);
+		com.zcbspay.platform.cnaps.beps.bean.RealTimeCollectionCharges.DbtrCdtrAcct1 dbtrCdtrAcct1 = new com.zcbspay.platform.cnaps.beps.bean.RealTimeCollectionCharges.DbtrCdtrAcct1();
+		com.zcbspay.platform.cnaps.beps.bean.RealTimeCollectionCharges.Id1 id12 = new com.zcbspay.platform.cnaps.beps.bean.RealTimeCollectionCharges.Id1();
+		com.zcbspay.platform.cnaps.beps.bean.RealTimeCollectionCharges.Othr1 othr12 = new com.zcbspay.platform.cnaps.beps.bean.RealTimeCollectionCharges.Othr1();
+		othr12.setId(singleBean.getCreditorAccountNo());
+		id12.setOthr(othr12);
+		dbtrCdtrAcct1.setId(id12);
+		realTmColltnChrgsInf.setCdtrAcct(dbtrCdtrAcct1);
+		com.zcbspay.platform.cnaps.beps.bean.RealTimeCollectionCharges.ActiveCurrencyAndAmount amount = new com.zcbspay.platform.cnaps.beps.bean.RealTimeCollectionCharges.ActiveCurrencyAndAmount();
+		amount.setCcy("CNY");
+		amount.setValue(new BigDecimal(singleBean.getAmount()));
+		realTmColltnChrgsInf.setAmt(amount);
+		com.zcbspay.platform.cnaps.beps.bean.RealTimeCollectionCharges.PmtTpInf1 pmtTpInf1 = new com.zcbspay.platform.cnaps.beps.bean.RealTimeCollectionCharges.PmtTpInf1();
+		com.zcbspay.platform.cnaps.beps.bean.RealTimeCollectionCharges.CtgyPurp1 ctgyPurp1 = new com.zcbspay.platform.cnaps.beps.bean.RealTimeCollectionCharges.CtgyPurp1();
+		ctgyPurp1.setPrtry(singleBean.getCategoryPurposeCode());
+		pmtTpInf1.setCtgyPurp(ctgyPurp1);
+		realTmColltnChrgsInf.setPmtTpInf(pmtTpInf1);
+		com.zcbspay.platform.cnaps.beps.bean.RealTimeCollectionCharges.Purp1 purp1 = new com.zcbspay.platform.cnaps.beps.bean.RealTimeCollectionCharges.Purp1();
+		purp1.setPrtry(singleBean.getPurposeCode());
+		realTmColltnChrgsInf.setPurp(purp1);
+		realTmColltnChrgsInf.setEndToEndId(singleBean.getEndToEndIdentification());
+		com.zcbspay.platform.cnaps.beps.bean.RealTimeCollectionCharges.ChckFlgCode1 chckFlgCode1 = com.zcbspay.platform.cnaps.beps.bean.RealTimeCollectionCharges.ChckFlgCode1.fromValue(singleBean.getCheckFlag());
+		realTmColltnChrgsInf.setChckFlg(chckFlgCode1);
+		realTmColltnChrgsV01.setRealTmColltnChrgsInf(realTmColltnChrgsInf);
+		document.setRealTmColltnChrgs(realTmColltnChrgsV01 );
+		MessageBean messageBean = new DefaultMessageBean(document, MessageTypeEnum.BEPS384);
 		return messageBean;
 	}
 }

@@ -10,4 +10,11 @@ public interface CnapsLogDAO extends BaseDAO<CnapsLogDO> {
 	 * @param cnapsLog
 	 */
 	public void saveCNAPSLog(CnapsLogDO cnapsLog);
+	
+	/**
+	 * 通过报文标示号获核心交易流水数据
+	 * @param msgId
+	 * @return
+	 */
+	public CnapsLogDO getCnapsLogDOByMsgId(String msgId);
 }

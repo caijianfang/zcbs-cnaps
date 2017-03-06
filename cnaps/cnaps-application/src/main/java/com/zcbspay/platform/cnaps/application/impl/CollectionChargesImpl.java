@@ -143,7 +143,7 @@ public class CollectionChargesImpl implements CollectionCharges {
 		singleBean.setPurposeCode(PurposeEnum.Other.getCode());
 		singleBean.setEndToEndIdentification(tradeBean.getProtocolNo());
 		singleBean.setCheckFlag("CE02");
-		
+		singleBean.setTxnseqno(tradeBean.getTxnseqno());
 		//实时代收业务报文接口
 		com.zcbspay.platform.cnaps.message.bean.ResultBean resultBean = bepsMessageService.realTimeCollectionChargesRequest(singleBean);
 		

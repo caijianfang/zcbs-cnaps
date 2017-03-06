@@ -1,6 +1,7 @@
 package com.zcbspay.platform.cnaps.message.dao;
 
 import com.zcbspay.platform.cnaps.common.dao.BaseDAO;
+import com.zcbspay.platform.cnaps.message.dao.bean.RspnInfoBean;
 import com.zcbspay.platform.cnaps.message.pojo.CnapsCollectDetaLogDO;
 
 public interface CnapsCollectDetaLogDAO extends BaseDAO<CnapsCollectDetaLogDO> {
@@ -10,4 +11,10 @@ public interface CnapsCollectDetaLogDAO extends BaseDAO<CnapsCollectDetaLogDO> {
 	 * @param cnapsCollectDetaLog
 	 */
 	public void saveCollectDetaLog(CnapsCollectDetaLogDO cnapsCollectDetaLog);
+	
+	/**
+	 * 
+	 * @param rspnInfoBean
+	 */
+	public void updateCollectDetaRSP(RspnInfoBean rspnInfoBean);
 }

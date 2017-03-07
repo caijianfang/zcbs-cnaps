@@ -117,7 +117,5 @@ public class CnapsCollectBatchLogDAOImpl extends HibernateBaseDAOImpl<CnapsColle
 		}
 		
 	}
-
-	
 	
 }

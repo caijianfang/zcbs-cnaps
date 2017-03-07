@@ -45,6 +45,10 @@ public class PaymentDetailBean implements Serializable{
 	 * 交易序列号
 	 */
 	private String txnseqno;
+	/**
+     * 业务种类编码
+     */
+    private String proprietary;
 	
 	public String getCreditorName() {
 		return creditorName;
@@ -88,7 +92,13 @@ public class PaymentDetailBean implements Serializable{
 	public void setTxnseqno(String txnseqno) {
 		this.txnseqno = txnseqno;
 	}
-	
-	
+    
+    public String getProprietary() {
+        return proprietary;
+    }
+    
+    public void setProprietary(String proprietary) {
+        this.proprietary = proprietary;
+    }
 	
 }

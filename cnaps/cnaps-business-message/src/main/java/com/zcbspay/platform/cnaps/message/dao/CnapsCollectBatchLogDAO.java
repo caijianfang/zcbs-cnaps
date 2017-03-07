@@ -3,6 +3,7 @@ package com.zcbspay.platform.cnaps.message.dao;
 import com.zcbspay.platform.cnaps.common.dao.BaseDAO;
 import com.zcbspay.platform.cnaps.message.bean.CollectionChargesTotalBean;
 import com.zcbspay.platform.cnaps.message.dao.bean.CmonConfInfoBean;
+import com.zcbspay.platform.cnaps.message.dao.bean.NPCPrcInfoBean;
 import com.zcbspay.platform.cnaps.message.pojo.CnapsCollectBatchLogDO;
 
 public interface CnapsCollectBatchLogDAO extends BaseDAO<CnapsCollectBatchLogDO> {
@@ -24,4 +25,23 @@ public interface CnapsCollectBatchLogDAO extends BaseDAO<CnapsCollectBatchLogDO>
 	 * @param totalBean
 	 */
 	public void saveBatchCollectionCharges(CollectionChargesTotalBean totalBean);
+	
+	/**
+	 * 根据回执报文更新原交易批次和明细数据
+	 * @param document 回执报文
+	 */
+	public void updateBatchCollectionChargesRSP(com.zcbspay.platform.cnaps.beps.bean.batchcollectionchargesresponse.Document document);
+	
+	/**
+	 * 根据msgId获取代收付批次数据
+	 * @param msgId
+	 * @return
+	 */
+	public CnapsCollectBatchLogDO getCollectBatchLogByMsgId(String msgId);
+	
+	/**
+	 * 更新代收批次NPC应答信息
+	 * @param npcPrcInfoBean
+	 */
+	public void updateCollectBatchNPCRSP(NPCPrcInfoBean npcPrcInfoBean);
 }

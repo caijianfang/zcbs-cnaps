@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.zcbspay.platform.cnaps.bean.MessageBean;
+import com.zcbspay.platform.cnaps.bean.MessageTypeEnum;
 import com.zcbspay.platform.cnaps.bean.utils.XMLUtils;
 import com.zcbspay.platform.cnaps.fe.send.MessageSend;
 import com.zcbspay.platform.cnaps.fe.send.bean.MessageCodeEnum;
@@ -29,6 +30,7 @@ import com.zcbspay.platform.cnaps.message.beps.result.CollectionChargesMessageRe
 import com.zcbspay.platform.cnaps.message.beps.result.PaymentMessageResult;
 import com.zcbspay.platform.cnaps.message.dao.CnapsCollectBatchLogDAO;
 import com.zcbspay.platform.cnaps.message.dao.CnapsPaymentBatchLogDAO;
+import com.zcbspay.platform.cnaps.message.dao.CnapsCollectSingleLogDAO;
 import com.zcbspay.platform.cnaps.utils.BeanCopyUtil;
 
 @Service
@@ -44,7 +46,8 @@ public class BEPSMessageServiceImpl implements BEPSMessageService {
     private CollectionChargesMessageResult collectionChargesMessageResult;
     @Autowired
     private PaymentMessageResult paymentMessageResult;
-
+	@Autowired
+	private CnapsCollectSingleLogDAO cnapsCollectSingleLogDAO;
     @Reference(version = "1.0")
     private MessageSend messageSend;
 
@@ -69,8 +72,19 @@ public class BEPSMessageServiceImpl implements BEPSMessageService {
 
     @Override
     public ResultBean batchCollectionChargesResponse(String message) {
-        // TODO Auto-generated method stub
-        return null;
+		try {
+			//应答报文原始字符串转换为messagebean
+			MessageBean messageBean = XMLUtils.parseToBean(message, MessageTypeEnum.BEPS381);
+			//MessageBean转换为Document
+			com.zcbspay.platform.cnaps.beps.bean.batchcollectionchargesresponse.Document document = (com.zcbspay.platform.cnaps.beps.bean.batchcollectionchargesresponse.Document) messageBean.getCNAPSMessageBean();
+			//更新对应报文的应答信息
+			cnapsCollectBatchLogDAO.updateBatchCollectionChargesRSP(document);
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+
     }
 
     @Override
@@ -101,14 +115,37 @@ public class BEPSMessageServiceImpl implements BEPSMessageService {
 
     @Override
     public ResultBean realTimeCollectionChargesRequest(SingleCollectionChargesDetailBean singleBean) {
-        // TODO Auto-generated method stub
-        return null;
+		//实时代收报文组装
+		MessageBean messageBean = CollectionChargesMessageAssembly.realTimeCollectionCharges(singleBean);
+		//保存实时代收交易流水
+		cnapsCollectSingleLogDAO.saveCollectSingleLog(singleBean);
+		//发送报文
+		SendResult sendResult = null;
+		try {
+			sendResult = messageSend.send(XMLUtils.toXML(messageBean.getCNAPSMessageBean()), MessageCodeEnum.BEPS);
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
+		//获取最后交易结果
+		com.zcbspay.platform.cnaps.common.bean.ResultBean resultBean = collectionChargesMessageResult.realTimeCollectionChargesResult(sendResult);
+		return BeanCopyUtil.copyBean(ResultBean.class, resultBean);
     }
 
     @Override
     public ResultBean realTimeCollectionChargesResponse(String message) {
-        // TODO Auto-generated method stub
-        return null;
+		try {
+			//应答报文原始字符串转换为messagebean
+			MessageBean messageBean = XMLUtils.parseToBean(message, MessageTypeEnum.BEPS385);
+			//MessageBean转换为Document
+			com.zcbspay.platform.cnaps.beps.bean.RealTimeCollectionChargesResponse.Document document = (com.zcbspay.platform.cnaps.beps.bean.RealTimeCollectionChargesResponse.Document) messageBean.getCNAPSMessageBean();
+			//更新对应报文的应答信息
+			cnapsCollectSingleLogDAO.updateRealTimeCollectionChargesRSP(document);
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+
     }
 
     @Override

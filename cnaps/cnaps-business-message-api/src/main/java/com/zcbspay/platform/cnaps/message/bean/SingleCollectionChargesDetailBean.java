@@ -80,6 +80,19 @@ public class SingleCollectionChargesDetailBean implements Serializable{
 	 * 检查标示
 	 */
 	private String checkFlag;
+	
+	private String txnseqno;
+	
+	//保存交易数据时使用，业务应用层不对以下属性赋值
+	private String createdate;
+	private String instructingdirectparty;
+	private String instructingparty;
+	private String instructeddirectparty;
+	private String instructedparty;
+	//private String batchno;
+	//private String transmitdate;
+	//private String returnlimited;
+	
 	public String getMsgId() {
 		return msgId;
 	}
@@ -175,6 +188,42 @@ public class SingleCollectionChargesDetailBean implements Serializable{
 	}
 	public void setCheckFlag(String checkFlag) {
 		this.checkFlag = checkFlag;
+	}
+	public String getCreatedate() {
+		return createdate;
+	}
+	public void setCreatedate(String createdate) {
+		this.createdate = createdate;
+	}
+	public String getInstructingdirectparty() {
+		return instructingdirectparty;
+	}
+	public void setInstructingdirectparty(String instructingdirectparty) {
+		this.instructingdirectparty = instructingdirectparty;
+	}
+	public String getInstructingparty() {
+		return instructingparty;
+	}
+	public void setInstructingparty(String instructingparty) {
+		this.instructingparty = instructingparty;
+	}
+	public String getInstructeddirectparty() {
+		return instructeddirectparty;
+	}
+	public void setInstructeddirectparty(String instructeddirectparty) {
+		this.instructeddirectparty = instructeddirectparty;
+	}
+	public String getInstructedparty() {
+		return instructedparty;
+	}
+	public void setInstructedparty(String instructedparty) {
+		this.instructedparty = instructedparty;
+	}
+	public String getTxnseqno() {
+		return txnseqno;
+	}
+	public void setTxnseqno(String txnseqno) {
+		this.txnseqno = txnseqno;
 	}
 	
 }

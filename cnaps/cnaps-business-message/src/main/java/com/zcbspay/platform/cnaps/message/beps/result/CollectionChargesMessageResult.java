@@ -21,4 +21,8 @@ public class CollectionChargesMessageResult {
 		
 		return null;
 	}
+	
+	public ResultBean realTimeCollectionChargesResult(SendResult sendResult){
+		return null;
+	}
 }

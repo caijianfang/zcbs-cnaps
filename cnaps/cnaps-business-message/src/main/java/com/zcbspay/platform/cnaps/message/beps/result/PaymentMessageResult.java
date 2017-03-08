@@ -17,8 +17,13 @@ import com.zcbspay.platform.cnaps.fe.send.bean.SendResult;
 @Service
 public class PaymentMessageResult {
 
-	public ResultBean batchPaymentResult(SendResult sendResult){
-		
-		return null;
-	}
+    public ResultBean batchPaymentResult(SendResult sendResult) {
+        // TODO
+        return null;
+    }
+
+    public ResultBean realTimePaymentResult(SendResult sendResult) {
+        // TODO
+        return null;
+    }
 }

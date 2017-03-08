@@ -25,18 +25,20 @@ import com.zcbspay.platform.cnaps.message.bean.SingleCollectionChargesDetailBean
 import com.zcbspay.platform.cnaps.message.bean.SinglePaymentBean;
 import com.zcbspay.platform.cnaps.message.beps.BEPSMessageService;
 import com.zcbspay.platform.cnaps.message.beps.assembly.CollectionChargesMessageAssembly;
-import com.zcbspay.platform.cnaps.message.beps.assembly.WithholdMessageAssembly;
+import com.zcbspay.platform.cnaps.message.beps.assembly.WithholdBatchMsgAssembly;
+import com.zcbspay.platform.cnaps.message.beps.assembly.WithholdRealTimeMsgAssembly;
 import com.zcbspay.platform.cnaps.message.beps.result.CollectionChargesMessageResult;
 import com.zcbspay.platform.cnaps.message.beps.result.PaymentMessageResult;
 import com.zcbspay.platform.cnaps.message.dao.CnapsCollectBatchLogDAO;
 import com.zcbspay.platform.cnaps.message.dao.CnapsCollectSingleLogDAO;
 import com.zcbspay.platform.cnaps.message.dao.CnapsPaymentBatchLogDAO;
+import com.zcbspay.platform.cnaps.message.dao.CnapsPaymentSingleLogDAO;
 import com.zcbspay.platform.cnaps.utils.BeanCopyUtil;
 
 @Service
 public class BEPSMessageServiceImpl implements BEPSMessageService {
 
-    private static final Logger logger = LoggerFactory.getLogger(WithholdMessageAssembly.class);
+    private static final Logger logger = LoggerFactory.getLogger(WithholdBatchMsgAssembly.class);
 
     @Autowired
     private CnapsCollectBatchLogDAO cnapsCollectBatchLogDAO;
@@ -48,6 +50,8 @@ public class BEPSMessageServiceImpl implements BEPSMessageService {
     private PaymentMessageResult paymentMessageResult;
     @Autowired
     private CnapsCollectSingleLogDAO cnapsCollectSingleLogDAO;
+    @Autowired
+    private CnapsPaymentSingleLogDAO cnapsPaymentSingleLogDAO;
     @Reference(version = "1.0")
     private MessageSend messageSend;
 
@@ -92,7 +96,7 @@ public class BEPSMessageServiceImpl implements BEPSMessageService {
     @Override
     public ResultBean batchPaymentByAgencyRequest(PaymentTotalBean totalBean) {
         // 组装报文
-        MessageBean messageBean = WithholdMessageAssembly.batchWithholding(totalBean);
+        MessageBean messageBean = WithholdBatchMsgAssembly.batchWithholding(totalBean);
         // 保存交易流水
         cnapsPaymentBatchLogDAO.savePaymentBatchSerialInfo(totalBean);
         // 发送报文
@@ -168,13 +172,39 @@ public class BEPSMessageServiceImpl implements BEPSMessageService {
 
     @Override
     public ResultBean realTimePaymentByAgencyRequest(SinglePaymentBean singleBean) {
-        // TODO Auto-generated method stub
-        return null;
+        // 实时代收报文组装
+        MessageBean messageBean = WithholdRealTimeMsgAssembly.realTimePayment(singleBean);
+        // 保存实时代收交易流水
+        cnapsPaymentSingleLogDAO.savePaymentSingleLog(singleBean);
+        // 发送报文
+        SendResult sendResult = null;
+        try {
+            sendResult = messageSend.send(XMLUtils.toXML(messageBean.getCNAPSMessageBean()), MessageCodeEnum.BEPS);
+        }
+        catch (JAXBException e) {
+            // TODO
+            logger.error("msg parse failed!!!", e);
+        }
+        // 获取最后交易结果
+        com.zcbspay.platform.cnaps.common.bean.ResultBean resultBean = paymentMessageResult.realTimePaymentResult(sendResult);
+        return BeanCopyUtil.copyBean(ResultBean.class, resultBean);
     }
 
     @Override
     public ResultBean realTimePaymentByAgencyResponse(String message) {
-        // TODO Auto-generated method stub
+        try {
+            // 应答报文原始字符串转换为messagebean
+            MessageBean messageBean = XMLUtils.parseToBean(message, MessageTypeEnum.BEPS387);
+            // MessageBean转换为Document
+            com.zcbspay.platform.cnaps.beps.bean.RealTimePaymentByAgencyResponse.Document document = (com.zcbspay.platform.cnaps.beps.bean.RealTimePaymentByAgencyResponse.Document) messageBean
+                    .getCNAPSMessageBean();
+            // 更新对应报文的应答信息
+            cnapsPaymentSingleLogDAO.updateRealTimePaymentRSP(document);
+        }
+        catch (JAXBException e) {
+            // TODO
+            logger.error("msg parse failed!!!", e);
+        }
         return null;
     }
 

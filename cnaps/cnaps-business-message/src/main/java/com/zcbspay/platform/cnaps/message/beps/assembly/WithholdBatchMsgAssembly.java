@@ -44,9 +44,9 @@ import com.zcbspay.platform.cnaps.utils.DateUtil;
  * @author AlanMa
  *
  */
-public class WithholdMessageAssembly {
+public class WithholdBatchMsgAssembly {
 
-    private static final Logger logger = LoggerFactory.getLogger(WithholdMessageAssembly.class);
+    private static final Logger logger = LoggerFactory.getLogger(WithholdBatchMsgAssembly.class);
 
     public static MessageBean batchWithholding(PaymentTotalBean totalBean) {
         // 报文体

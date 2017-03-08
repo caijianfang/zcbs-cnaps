@@ -1,12 +1,10 @@
 package com.zcbspay.platform.cnaps.message.beps;
 
 import com.zcbspay.platform.cnaps.message.bean.AccountBean;
-import com.zcbspay.platform.cnaps.message.bean.CollectionChargesDetailBean;
 import com.zcbspay.platform.cnaps.message.bean.CollectionChargesTotalBean;
 import com.zcbspay.platform.cnaps.message.bean.ContractBean;
 import com.zcbspay.platform.cnaps.message.bean.ContractOperationEnum;
 import com.zcbspay.platform.cnaps.message.bean.DetailCheckBean;
-import com.zcbspay.platform.cnaps.message.bean.PaymentDetailBean;
 import com.zcbspay.platform.cnaps.message.bean.PaymentTotalBean;
 import com.zcbspay.platform.cnaps.message.bean.ResultBean;
 import com.zcbspay.platform.cnaps.message.bean.SingleCollectionChargesDetailBean;

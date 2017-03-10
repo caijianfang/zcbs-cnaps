@@ -1,6 +1,7 @@
 package com.zcbspay.platform.cnaps.transfer.message.assemble;
 
-import com.zcbspay.platform.cnaps.transfer.message.bean.MessageBean;
+import com.zcbspay.platform.cnaps.bean.MessageBean;
+//import com.zcbspay.platform.cnaps.transfer.message.bean.MessageBean;
 import com.zcbspay.platform.cnaps.transfer.message.bean.MessageHeadBean;
 
 /**

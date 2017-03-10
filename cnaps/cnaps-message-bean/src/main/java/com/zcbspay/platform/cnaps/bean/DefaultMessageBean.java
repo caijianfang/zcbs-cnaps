@@ -28,6 +28,8 @@ public class DefaultMessageBean implements MessageBean{
 	}
 
 	public DefaultMessageBean(Object messageBean,MessageTypeEnum messageTypeEnum){
-		super();
+		// super();
+		this.messageBean = messageBean;
+		this.messageTypeEnum = messageTypeEnum;
 	}
 }

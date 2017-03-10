@@ -11,6 +11,7 @@ package com.zcbspay.platform.cnaps.beps.bean.BatchCustomersContractManageRespons
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 
@@ -34,9 +35,10 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Document", propOrder = {
-    "btchCstmrsCtrctMgRspn"
-})
+//@XmlType(name = "Document", propOrder = {
+//    "btchCstmrsCtrctMgRspn"
+//})
+@XmlRootElement(name = "Document") 
 public class Document {
 
     @XmlElement(name = "BtchCstmrsCtrctMgRspn", required = true)

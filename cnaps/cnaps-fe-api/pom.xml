@@ -8,7 +8,7 @@
 		<artifactId>cnaps</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>channel-unionpay-api</artifactId>
+	<artifactId>cnaps-fe-api</artifactId>
 	<name>cnaps-fe-api</name>
 	<url>http://maven.apache.org</url>
 	<description>人行渠道通讯前置模块接口</description>

@@ -2,7 +2,7 @@ package com.zcbspay.platform.cnaps.transfer.message.bean;
 
 
 public enum MessageType {
-	ccms303(""),
+/*	ccms303(""),
 	beps380("beps.380.001.01"),
 	beps381("beps.381.001.01"),
 	beps382("beps.382.001.01"),
@@ -34,5 +34,5 @@ public enum MessageType {
     }
 	public String getType(){
 		return type;
-	}
+	}*/
 }
